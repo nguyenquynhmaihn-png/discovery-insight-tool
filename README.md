@@ -7,7 +7,7 @@ An AI-assisted tool that turns customer interview transcripts into evidence a PM
 - Nothing counts until a PM has reviewed it, one insight at a time.
 - Approved insights build an opportunity tree: a short overview of the top problems, with the evidence one click deeper.
 
-Built by Mai Nguyen as a portfolio project. Read the case study: [[link to case study](https://app.notion.com/p/Discovery-Insight-Tool-an-AI-tool-you-can-trust-3fbecd7472b981c59418f7629e712d9e)]
+Built by Mai Nguyen as a portfolio project. Read the case study: [Discovery Insight Tool: an AI tool you can trust](https://app.notion.com/p/Discovery-Insight-Tool-an-AI-tool-you-can-trust-3fbecd7472b981c59418f7629e712d9e?source=copy_link)
 
 ## Try it
 
@@ -15,7 +15,7 @@ Built by Mai Nguyen as a portfolio project. Read the case study: [[link to case 
 |---|---|---|
 | Interactive prototype (v0.2 design, fictional data) | https://nguyenquynhmaihn-png.github.io/discovery-insight-tool/ | A browser |
 | Working pipeline on demo data | Open `web/index.html` | A browser |
-| Run it on your own transcript | See below | Python 3 and Claude Code |
+| Run it on your own transcript | See below | Python 3 and an AI agent (built with Claude Code; Codex or Copilot should also work) |
 
 ## Why it exists
 
@@ -57,6 +57,15 @@ You need Python 3.9 or later and [Claude Code](https://claude.com/claude-code). 
    python3 scripts/build_site.py
    ```
 
+### Using ChatGPT (Codex) or GitHub Copilot instead of Claude Code
+
+Only the drafting step needs an AI. The quote checks, validation, approval and dashboard are plain Python, so they work the same whichever AI wrote the draft.
+
+- **Codex (included with ChatGPT plans) or GitHub Copilot agent mode in VS Code:** open this folder and ask the agent to "Process the new transcript in inbox". These agents read `AGENTS.md`, which points them to the same rules and procedure. Then continue from step 5 above.
+- **Plain ChatGPT, no agent:** paste `CLAUDE.md`, `DATA_MODEL.md` and your transcript into the chat, and ask for `insights.json` in the format described. Save it in `data/organisations/ORG-001/interviews/INT-001/` with a copy of the transcript as `transcript.md`, then run `python3 scripts/validate.py`. Any quote the AI changed or made up will fail the check.
+
+Built and tested with Claude Code. The other options use the same rules but have not been tested yet.
+
 To look at the demo data instead: `python3 scripts/build_site.py demo`, then open `web/index.html`.
 
 ## What's in the repo
@@ -64,6 +73,7 @@ To look at the demo data instead: `python3 scripts/build_site.py demo`, then ope
 | Folder or file | What it is |
 |---|---|
 | `CLAUDE.md` | The rules the AI must follow |
+| `AGENTS.md` | Points other AI agents (Codex, Copilot) to the same rules |
 | `skills/process-interview/` | The step-by-step procedure for one interview |
 | `DATA_MODEL.md` | How insights, interviews and the tree are stored |
 | `scripts/` | Quote verification, validation, approval and the dashboard build |
