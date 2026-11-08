@@ -7,7 +7,7 @@ An AI-assisted tool that turns customer interview transcripts into evidence a PM
 - Nothing counts until a PM has reviewed it, one insight at a time.
 - Approved insights build an opportunity tree: a short overview of the top problems, with the evidence one click deeper.
 
-Built by Mai Nguyen as a portfolio project. Read the case study: [link to case study]
+Built by Mai Nguyen as a portfolio project. Read the case study: [[link to case study](https://app.notion.com/p/Discovery-Insight-Tool-an-AI-tool-you-can-trust-3fbecd7472b981c59418f7629e712d9e)]
 
 ## Try it
 
