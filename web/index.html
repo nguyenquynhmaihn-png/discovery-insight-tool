@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Discovery Insights</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="title">Discovery Insights</h1>
+      <p class="sub" id="subtitle"></p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+  <div id="demo-banner" class="banner" hidden>Demo data: fictional interviews used to show the layout. Real, anonymised transcripts replace this.</div>
+  <div id="warn"></div>
+  <nav class="tabs" id="tabs">
+    <a href="#/review" data-tab="review"><span class="step">1</span>Review <span class="count" id="rv-count"></span></a>
+    <a href="#/opportunities" data-tab="opportunities"><span class="step">2</span>Opportunities</a>
+    <a href="#/interviews" data-tab="interviews">Interviews</a>
+    <span class="tabspace"></span>
+    <details class="moremenu" id="moremenu"><summary>More</summary><div>
+      <a href="#/customers" data-tab="customers">Customers</a>
+      <a href="#/followups" data-tab="followups">Follow-ups <span class="count" id="fu-count"></span></a>
+      <a href="#/changelog" data-tab="changelog">Change log</a></div></details>
+  </nav>
+  <main id="view"></main>
+  <footer class="foot">Every quote (including counter-evidence) is checked word-for-word against its transcript at build time. ✓ = verified. v0.2 also flags yes/no and leading questions, shows quote context and highlights what the AI didn't use.</footer>
+</div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

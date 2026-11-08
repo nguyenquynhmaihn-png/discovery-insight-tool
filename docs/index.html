@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Discovery Insight Tool MVP</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1c1f24;--muted:#5f6772;--line:#e2e5e9;--bg:#f6f7f9;--accent:#2f5d8a;--accent-soft:#e8eff6;--l1:#eef3f9;
+--warn:#9a5200;--warn-soft:#fff2df;--ok:#1f7a4d;--ok-soft:#e5f4ec;--bad:#a8323a;--bad-soft:#fbe9ea;--chg:#6a3fa0;--chg-soft:#efe8f8;--hl:#ffe58a;
+--beh:#0f6e6e;--beh-soft:#dff3f2;--op:#555c66;--op-soft:#eceef1;--fr:#6a3fa0;--fr-soft:#efe8f8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:13px/1.45 Inter,system-ui,sans-serif}
+.nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:4px;align-items:center;padding:0 20px;height:50px}
+.nav .brand{font-weight:700;margin-right:18px}
+.nav button{border:none;background:none;font:500 13px Inter,sans-serif;color:var(--muted);padding:15px 12px;cursor:pointer;border-bottom:2px solid transparent}
+.nav button.on{color:var(--ink);border-bottom-color:var(--accent);font-weight:600}
+.nav .cnt{background:var(--warn-soft);color:var(--warn);border-radius:999px;padding:0 7px;font-size:11px;margin-left:4px}
+.wrap{max-width:1240px;margin:0 auto;padding:20px}
+.sub{font-size:12px;color:var(--muted)}
+.lk{color:var(--accent);font-weight:600;font-size:12px;cursor:pointer;background:none;border:none;font-family:Inter,sans-serif;padding:0}
+.btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:8px 14px;font:600 13px Inter,sans-serif;cursor:pointer;color:var(--ink)}
+.btn.sm{padding:5px 10px;font-size:12px}
+.btn.keep{background:var(--ok);border-color:var(--ok);color:#fff}.btn.drop{color:var(--bad)}.btn.pr{background:var(--accent);border-color:var(--accent);color:#fff}
+select,input,textarea{font:13px Inter,sans-serif;border:1px solid var(--line);border-radius:6px;padding:7px 9px;background:#fff;max-width:100%}
+.tag{display:inline-block;font-size:11px;font-weight:600;border-radius:4px;padding:1px 7px;margin:0 4px 3px 0;white-space:nowrap}
+.t-Behaviour{background:var(--beh-soft);color:var(--beh)}.t-Opinion{background:var(--op-soft);color:var(--op)}.t-Feature{background:var(--fr-soft);color:var(--fr)}
+.new{background:var(--accent);color:#fff}.weak{background:var(--warn-soft);color:var(--warn)}.against{background:var(--bad-soft);color:var(--bad)}.plus{background:var(--chg-soft);color:var(--chg)}.fc{background:var(--ok);color:#fff}
+.sev-blocker{background:var(--bad-soft);color:var(--bad)}.sev-workaround{background:var(--warn-soft);color:var(--warn)}.sev-irritation{background:var(--op-soft);color:var(--op)}
+.who a{color:var(--accent);font-weight:600;cursor:pointer;text-decoration:none}
+mark{background:var(--hl);padding:1px 2px;border-radius:2px;color:inherit}
+/* ===== REVIEW (flashcard) ===== */
+.rhead{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.rhead h1{font-size:18px}
+.dots{display:flex;gap:4px;flex:1;max-width:420px}
+.dots span{flex:1;height:6px;border-radius:3px;background:var(--line);cursor:pointer}
+.dots .ap{background:var(--ok)}.dots .rj{background:var(--bad)}.dots .cur{background:var(--accent)}
+.timer{font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.card{max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 4px 18px rgba(20,30,50,.06);padding:22px 26px}
+.card .meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:10px}
+.check{border:1px solid #f1d6ad;background:var(--warn-soft);border-radius:9px;padding:9px 12px;margin-bottom:8px}
+.check .cq{font-weight:700;color:var(--warn)}.check .a{font-size:12.5px;margin-top:2px}
+.infob{border:1px solid #cddcec;background:var(--accent-soft);border-radius:9px;padding:9px 12px;margin-bottom:8px;font-size:12.5px}
+.said{font-size:18px;font-weight:600;line-height:1.4;margin:6px 0 2px}
+.said q{quotes:"\201C" "\201D"}
+.lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:14px 0 5px}
+.ctx{border:1px solid var(--line);border-radius:9px;padding:4px 0}
+.tl{display:grid;grid-template-columns:34px 92px 1fr;gap:6px;padding:4px 10px;font-size:12.5px}
+.tl .n{color:var(--muted);text-align:right}.tl .s{color:var(--muted);font-weight:600}.tl.int .x,.tl.int .s{color:#8a9099}
+.aibox{display:flex;gap:8px;align-items:center;background:#fafbfc;border:1px dashed var(--line);border-radius:8px;padding:8px 11px}
+.aibox input{flex:1}
+.fubox{border:1px solid #d9cdea;background:var(--fr-soft);border-radius:9px;padding:10px 12px;margin-top:10px}
+.fubox textarea{width:100%;margin:6px 0;min-height:52px}
+.fusaved{margin-top:8px;font-size:12.5px;color:var(--fr)}
+.acts{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.kbd{font:600 10px Inter;border:1px solid rgba(255,255,255,.5);border-radius:3px;padding:0 4px;margin-left:5px}.kbd.d{border-color:var(--line);color:var(--muted)}
+.newopp{border:1px solid var(--accent);border-radius:9px;padding:10px 12px;margin-top:10px}
+.done{max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px}
+.done h2{font-size:20px;color:var(--ok)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.stats div{border:1px solid var(--line);border-radius:10px;padding:10px 12px}.stats b{display:block;font-size:22px}
+/* ===== TREE ===== */
+.frame{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.top{padding:14px 16px;border-bottom:1px solid var(--line)}
+.top h1{font-size:16px}
+.chg{margin-top:10px;background:var(--chg-soft);border-radius:8px;padding:8px 12px;font-size:12.5px}.chg b{color:var(--chg)}
+.alert{margin-top:8px;background:var(--warn-soft);border:1px solid #f1d6ad;border-radius:8px;padding:8px 12px;color:var(--warn);font-size:12.5px}
+.focusbox{margin:10px 16px 0;border:1.5px solid var(--ok);background:var(--ok-soft);border-radius:9px;padding:8px 12px;font-size:12.5px}.focusbox b{color:var(--ok)}
+.bar{display:flex;gap:12px;align-items:center;padding:10px 16px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.lg1{display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--l1);border-left:4px solid var(--accent);vertical-align:middle;margin-right:4px}
+.lg2{display:inline-block;width:14px;height:14px;border-left:2px solid #c9d3de;border-bottom:2px solid #c9d3de;vertical-align:middle;margin-right:4px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11.5px;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);background:#fbfcfd;white-space:nowrap}
+th .h{cursor:pointer}th.on .h{color:var(--accent)}
+.q{display:inline-block;width:15px;height:15px;border:1px solid var(--line);border-radius:50%;text-align:center;line-height:13px;font-size:10px;margin-left:4px;cursor:help;color:var(--muted);background:#fff;position:relative}
+.q .tip{display:none;position:absolute;top:20px;left:-120px;width:250px;background:var(--ink);color:#fff;font:400 12px/1.4 Inter,sans-serif;padding:8px 10px;border-radius:6px;z-index:10;white-space:normal;text-align:left}
+.q:hover .tip{display:block}
+td{padding:9px 10px;vertical-align:top;font-size:12.5px}td.t{width:42%}
+tr.l1>td{background:var(--l1);border-top:10px solid #fff;padding-top:11px;padding-bottom:11px}
+tr.l1>td.t{border-left:5px solid var(--accent);border-radius:8px 0 0 8px}tr.l1>td:last-child{border-radius:0 8px 8px 0}
+tr.l1 .tt{font-size:14.5px;font-weight:700}tr.l1 .num{font-size:15px}
+.lv{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:1px}
+tr.l2>td{border-bottom:1px solid #eef0f3;background:#fff}
+tr.l2>td.t{padding-left:46px;position:relative}
+tr.l2>td.t:before{content:"";position:absolute;left:24px;top:0;bottom:0;border-left:2px solid #c9d3de}
+tr.l2.last>td.t:before{bottom:calc(100% - 20px)}
+tr.l2>td.t:after{content:"";position:absolute;left:24px;top:19px;width:14px;border-top:2px solid #c9d3de}
+tr.l2 .tt{font-size:13px;font-weight:500}tr.l2 .lv{color:var(--muted)}
+tr.ev>td{background:#fff;padding:0 10px 10px 70px}tr.ev.l1ev>td{padding-left:28px;background:var(--l1)}
+.car{display:inline-block;width:14px;color:var(--muted);cursor:pointer}
+.num{font-weight:700;font-size:14px}
+.gap{margin-top:4px;font-size:12px;color:var(--warn)}
+.racts{margin-top:5px;display:flex;gap:10px;flex-wrap:wrap}
+.ins{border-left:3px solid var(--line);padding:7px 10px;margin:6px 0 0;background:#fafbfc;border-radius:0 6px 6px 0;display:grid;grid-template-columns:1fr 220px;gap:10px}
+.ins.ag{border-left-color:var(--bad)}.ins.fresh{border-left-color:var(--chg)}
+.ins .sm{font-weight:600}.ins q{display:block;font-style:italic;margin-top:3px;quotes:"\201C" "\201D"}
+.who{font-size:11.5px;color:var(--muted)}
+.inlab{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:6px}
+.inline{margin-top:6px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.inline input,.inline select{padding:5px 7px;font-size:12.5px}
+.panels{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:12px;padding:14px 16px 16px}
+.pn{border:1px solid var(--line);border-radius:10px;padding:10px 12px}.pn.un{border:1px dashed #e0b97a;background:#fffaf2}
+.pn h3{font-size:13px;margin-bottom:4px}.pn li{margin:4px 0 4px 18px;font-size:12.5px}
+/* ===== CUSTOMERS + PROFILE PANEL ===== */
+.clist{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.crow{display:grid;grid-template-columns:1.4fr 1fr 1fr 120px 120px;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line);cursor:pointer;align-items:center}
+.crow:hover{background:#fafbfc}.crow.h{background:#fbfcfd;font-size:11.5px;color:var(--muted);font-weight:600;cursor:default}
+.ty{font-size:11px;font-weight:600;border-radius:4px;padding:1px 7px}
+.ty.target{background:var(--ok-soft);color:var(--ok)}.ty.adjacent{background:var(--op-soft);color:var(--op)}.ty.expert{background:var(--accent-soft);color:var(--accent)}
+.ov{position:fixed;inset:0;background:rgba(20,25,35,.25);z-index:30}
+.panel{position:fixed;top:0;right:0;bottom:0;width:470px;max-width:100%;background:#fff;z-index:31;box-shadow:-8px 0 30px rgba(0,0,0,.12);overflow:auto;padding:20px 22px}
+.panel h2{font-size:19px}
+.psec{margin-top:16px}
+.psec h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
+.fu{border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin-bottom:7px}
+.fu.Open{border-left:4px solid var(--fr)}.fu.Asked{border-left:4px solid var(--warn)}.fu.Answered{border-left:4px solid var(--ok);opacity:.8}
+.fu .fq{font-weight:600}
+.fu .src{font-size:11.5px;color:var(--muted);margin-top:3px}
+.fu .src q{font-style:italic;quotes:"\201C" "\201D"}
+.st{font-size:11px;font-weight:700;border-radius:4px;padding:1px 7px}
+.st.Open{background:var(--fr-soft);color:var(--fr)}.st.Asked{background:var(--warn-soft);color:var(--warn)}.st.Answered{background:var(--ok-soft);color:var(--ok)}
+.pins{font-size:12.5px;padding:5px 0;border-bottom:1px solid #f0f1f3}
+.snap{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff}
+.snaphead{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.memq{font-size:15px;font-style:italic;font-weight:500;border-left:3px solid var(--accent);padding:4px 10px;background:var(--accent-soft);border-radius:0 6px 6px 0}
+.snapop{font-size:12px;font-weight:600;color:var(--muted);margin-top:6px}
+.snapitem{border:1px solid var(--line);border-radius:9px;margin-bottom:7px;overflow:hidden}
+.snaprow{display:flex;gap:8px;align-items:center;padding:8px 11px;cursor:pointer;background:#fbfcfd}
+.snapitem .snap{border:none;border-top:1px solid var(--line);border-radius:0}
+.txbox{position:fixed;z-index:41;top:5vh;left:50%;transform:translateX(-50%);width:760px;max-width:94vw;max-height:90vh;background:#fff;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.2);display:flex;flex-direction:column}
+.txhead{display:flex;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.txbody{overflow:auto;padding:8px 6px 16px}
+.tl.target{background:#fff6d6;outline:2px solid #e8c34a;border-radius:4px}
+.annot{max-width:1240px;margin:0 auto;padding:0 20px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.annot div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:12.5px}
+.annot b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:3px}
+@media(max-width:900px){.annot,.panels,.stats{grid-template-columns:1fr 1fr}.ins{grid-template-columns:1fr}.crow{grid-template-columns:1fr 1fr}}
+.ot .ot-top h1{font-size:20px}.ot-body{padding:6px 16px 18px}
+.ot-tog{margin-left:auto;display:flex;background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px}
+.ot-tog button{border:0;background:none;padding:6px 12px;border-radius:6px;font:inherit;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}.ot-tog button.on{background:var(--accent);color:#fff}
+.ot-scale{font-size:12.5px;color:var(--muted);margin:6px 0 8px}
+.ot-bl{background:#1f3b57;color:#fff;border-radius:10px;padding:12px 16px;margin-bottom:10px}.ot-bl p{margin:4px 0;font-size:15px}.ot-bll{font-size:11.5px;font-weight:700;color:#a9c1d8}.ot-bls{font-size:12.5px;color:#c8d6e4}.ot-lkw{color:#fff;text-decoration:underline;margin-left:6px}
+.ot-ta{width:100%;font:inherit;font-size:13px;border:1px solid #cfd5dc;border-radius:6px;padding:6px 8px;min-height:54px;color:var(--ink)}
+.ot-sec{font-size:12px;font-weight:700;color:var(--muted);margin:18px 0 8px;display:flex;gap:8px;align-items:center}.ot-n{background:#e9ecf0;border-radius:999px;padding:0 8px;font-weight:600}
+.ot-card{background:#fff;border:1px solid var(--line);border-radius:10px;margin-bottom:10px;cursor:pointer;position:relative}
+.ot-card:hover{border-top-color:#b9c4d0;border-right-color:#b9c4d0;border-bottom-color:#b9c4d0}
+.ot-card.F{border-left:7px solid var(--accent);background:#eef4fb;border-color:#c9d9ea;padding:14px 18px 12px}
+.ot-card.W{border-left:4px solid #8fa9c4;padding:12px 16px}
+.ot-card.L{border-left:3px solid #cfd5dc;margin-bottom:6px;padding:8px 14px;display:flex;align-items:center;gap:10px}
+.ot-lt{flex:1;font-size:13.5px}.ot-cr{position:absolute;right:14px;top:13px;color:var(--accent);font-size:12.5px;font-weight:600}.ot-card.L .ot-cr{position:static}
+.ot-tier{font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;display:inline-block}.tF{background:var(--accent);color:#fff}.tW{background:#dfe8f2;color:var(--accent)}.tL{background:#eef0f3;color:var(--muted)}
+.ot-card h3{font-size:16px;margin:7px 0 5px}.ot-card.W h3{font-size:15px;margin:6px 0 6px}
+.ot-why{font-size:13px;margin:0 0 8px}.ot-why b{color:var(--muted);font-weight:600}.ot-lnk{font-size:12.5px;color:var(--muted);margin:0 0 8px}.ot-lnk b{color:var(--ink);font-weight:600}
+.ot-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.ot-chip{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;background:#fff;white-space:nowrap}
+.ot-chip.p{border-color:#b7cbe0;background:var(--accent-soft);color:var(--accent);font-weight:600}.ot-chip.o{border-color:#c9dfd2;background:var(--ok-soft);color:var(--ok)}
+.ot-chip.s{border-color:#f0d3b0;background:var(--warn-soft);color:var(--warn)}.ot-chip.b{border-color:#f0c7ca;background:var(--bad-soft);color:var(--bad)}.ot-chip.dash{border-style:dashed}.ot-chip.n{border-color:#e0d2f2;background:var(--chg-soft);color:var(--chg)}
+.ot-unc{font-size:12.5px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;align-items:center;border-top:1px solid #d6e1ec;padding-top:8px}.ot-unc b{color:var(--warn)}.ot-by{margin-left:auto;font-size:11.5px}
+.ot-rd{font-size:12px;font-weight:600;border-radius:999px;padding:2px 9px}.ot-rd.ok{background:var(--ok-soft);color:var(--ok)}.ot-rd.no{background:var(--warn-soft);color:var(--warn)}
+.ot-later summary,.ot-pn summary{cursor:pointer;list-style:none}.ot-later summary::-webkit-details-marker,.ot-pn summary::-webkit-details-marker{display:none}
+.ot-later summary:before{content:"▸ "}.ot-later[open] summary:before{content:"▾ "}
+.ot-pn{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-top:10px}.ot-pn summary:before{content:"▸ "}.ot-pn[open] summary:before{content:"▾ "}
+.ot-log{margin:8px 0 0 18px;font-size:12.5px;color:var(--muted)}
+.ot-rule{font-size:12px;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:8px 12px;margin-top:14px}.ot-demo{font-size:11.5px;color:var(--muted);margin-top:12px}
+.ot-gbox{border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.9;margin:6px 0 10px}
+.ot-cmp{width:100%;border-collapse:collapse;font-size:12.5px;border:1px solid var(--line)}.ot-cmp th,.ot-cmp td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.ot-cmp th{background:#f1f3f6;color:var(--muted);font-weight:600;font-size:11.5px}.ot-cmp td:first-child{font-weight:600;width:24%}.ot-cmp a{cursor:pointer;color:var(--accent)}
+.ot-cmp select,.ot-dec select{font:inherit;font-size:13px;border:1px solid #cfd5dc;border-radius:6px;padding:4px 6px;background:#fff}.ot-cmp select.diff{border-color:#e8a33d;background:#fff8ec}
+.ot-back{display:inline-block;margin:6px 0 10px;font-size:13px}
+.ot-dh{border:1px solid var(--line);border-left:7px solid #cfd5dc;border-radius:10px 10px 0 0;padding:14px 18px}.ot-dh.F{background:#eef4fb;border-left-color:var(--accent);border-color:#c9d9ea}.ot-dh.W{border-left-color:#8fa9c4}
+.ot-dh h2{font-size:18px;margin:8px 0 6px}
+.ot-ev{border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;padding:14px 18px 16px}
+.ot-lab{font-size:11.5px;font-weight:700;color:var(--muted);margin:16px 0 6px}.ot-lab:first-child{margin-top:0}
+.ot-dec{display:grid;grid-template-columns:150px 1fr;gap:8px 12px;align-items:start;background:#fafbfc;border:1px solid var(--line);border-radius:8px;padding:12px}.ot-dec label{font-size:12.5px;color:var(--muted);padding-top:5px}.ot-dec select{width:100%}
+.ot-gd{font-size:12px;color:var(--muted);margin-bottom:5px}.ot-gd b{color:var(--accent)}
+.ot-sig{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.ot-sig div{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--muted)}.ot-sig b{display:block;font-size:14px;color:var(--ink)}
+.ot-gap{font-size:12.5px;color:var(--warn);margin-top:8px}.ot-gap.ok{color:var(--ok)}
+.ot-sp{border:1px solid var(--line);border-radius:8px;margin-bottom:8px}.ot-sph{padding:8px 12px;cursor:pointer;display:flex;gap:10px;align-items:center;font-weight:600;font-size:13.5px}.ot-sph .sub{font-weight:400;margin-left:auto}
+.ot-sp .ins{border-top:1px solid var(--line)}
+.ot-oe{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-left:3px solid #8fa9c4;border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:13px}
+.ot-src{font-size:11px;font-weight:700;background:#eef0f3;color:#3b4350;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.ot-add{display:flex;gap:6px;margin:4px 0 6px;flex-wrap:wrap}.ot-add input,.ot-add select{font:inherit;font-size:13px;border:1px solid #cfd5dc;border-radius:6px;padding:5px 7px}.ot-add input{flex:1;min-width:170px}
+.ot-fu{font-size:12.5px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.ot-st{font-size:11px;font-weight:700;border-radius:999px;padding:1px 8px}.ot-st.Open{background:var(--warn-soft);color:var(--warn)}.ot-st.Asked{background:var(--accent-soft);color:var(--accent)}
+@media(max-width:760px){.ot-sig{grid-template-columns:repeat(2,1fr)}.ot-dec{grid-template-columns:1fr}.ot-card.F .ot-cr,.ot-card.W .ot-cr{position:static;display:block;margin-bottom:4px}}
+</style></head><body>
+<div class="nav" id="nav"></div>
+<div class="wrap" id="main"></div>
+<div class="annot">
+ <div><b>Review = flashcard</b>One insight at a time: flags with "check → do", the customer's words first with the quote highlighted in context, the AI summary underneath (editable), group, Keep / Drop. "Add follow-up" saves an open question to that customer's profile.</div>
+ <div><b>Tree = decide</b>Overview for the Head of Product: Focus, Watch and Later tiers set by the PM, each with why it matters, target customers, objective and readiness. Compare view and one evidence page per problem for the PM who did the interviews, including evidence from other sources.</div>
+ <div><b>Snapshot + profile</b>Each review ends in an interview snapshot (memorable quote, what I learned, opportunities touched, follow-ups). The profile holds one snapshot per interview plus open follow-ups: Open → Asked → Answered. Opens as a side panel from anywhere.</div>
+</div>
+<div id="panel"></div>
+<script>
+/* ---------- DATA ---------- */
+const PEOPLE={
+P:{n:'Priya',type:'target',role:'Sustainability Lead',org:'Northwind Components (fictional), 400-person manufacturer, Germany',why:'L4: "I lead sustainability at a manufacturer, about four hundred people."',ints:[['INT-005','7 Oct']]},
+T:{n:'Tom',type:'target',role:'Head of Finance & ESG',org:'Brightline Logistics (fictional), mid-size, NL',why:'L3: "I own the ESG report alongside finance."',ints:[['INT-002','12 Sep']]},
+L:{n:'Lena',type:'target',role:'ESG Analyst',org:'Halden Foods (fictional), mid-size, DK',why:'L6: "We are around 600 people and I do the ESG data."',ints:[['INT-010','4 Oct']]},
+A:{n:'Ana',type:'adjacent',role:'Programme Officer',org:'NGO (fictional)',why:'NGO, not a company in the ICP.',ints:[['INT-003','20 Sep']]},
+K:{n:'Kofi',type:'adjacent',role:'M&E Manager',org:'NGO (fictional)',why:'NGO, not a company in the ICP.',ints:[['INT-001','5 Sep']]},
+M:{n:'Marta',type:'adjacent',role:'Grants Manager',org:'Foundation (fictional)',why:'Funder, not a company in the ICP.',ints:[['INT-004','25 Sep']]},
+J:{n:'Jon',type:'expert',role:'ESG consultant',org:'Consultancy (fictional)',why:'Advises companies; context, not customer evidence.',ints:[['INT-006','28 Sep']]},
+S:{n:'Sara',type:'expert',role:'Industry body lead',org:'Professional body (fictional)',why:'Industry body; context only.',ints:[['INT-007','30 Sep']]},
+R:{n:'Rui',type:'adjacent',role:'Social value advisor',org:'Housing (fictional)',why:'Outside the ICP sector.',ints:[['INT-008','2 Oct']]},
+D:{n:'Dev',type:'adjacent',role:'Site operations',org:'NGO (fictional)',why:'NGO field staff.',ints:[['INT-009','3 Oct']]}};
+const DATE={P:1007,T:912,L:1004,A:920,K:905,M:925,J:928,S:930,R:1002,D:1003};
+const pint=p=>PEOPLE[p].ints[PEOPLE[p].ints.length-1][0];
+let NODES=[['o1',"I can't get supplier data on time"],['o1a','Suppliers reply late','o1'],['o1b','Supplier numbers are unreliable','o1'],['o1c',"I can't see which suppliers have replied",'o1'],
+['o2',"I can't prove our numbers are right"],['o3','Board reporting takes me days of manual work'],['o4','My spreadsheets break as data grows'],
+['o5','I have to combine reporting from many projects and countries'],['o6','Each funder sets its own reporting rules'],
+['o7',"I don't know exactly what I should report on"],['o7a','Frameworks keep changing','o7'],['o7b','Requirements differ by client','o7'],
+['o8','Site staff key in utility and waste data by hand'],['o9',"Our data tool is chosen centrally and doesn't fit us"],
+['o10','Social value is hard to put into numbers'],['o10a',"Clients don't see the value of social impact",'o10'],['o10b',"Qualitative stories don't fit the report",'o10'],
+['o11',"Many organisations in my region don't see ESG as a priority"],['o12','Collecting data from rural projects is expensive'],['o12a','Field visits cost too much','o12'],['o12b','Connectivity is poor','o12']
+].map(([id,t,parent])=>({id,t,parent:parent||null}));
+let nI=0;const I=(node,p,type,sev,sm,q,line,x={})=>({id:'i'+(++nI),node,p,type,sev,sm,qs:[[line,q]],...x});
+let INS=[
+I('o1a','T','Behaviour','workaround','I send the same request three times before anyone answers','I send the same request three times before anyone even answers.','L23'),
+I('o1b','T','Opinion',null,'Half of what suppliers send is an estimate','Honestly, half of what suppliers send me is an estimate.','L31'),
+I('o1b','A','Behaviour','workaround','We rebuild supplier figures from invoices','We end up rebuilding the supplier figures from invoices ourselves.','L17'),
+I('o1c','L','Behaviour','irritation','I keep a sticky-note list of who has replied','I literally keep a sticky note of which suppliers have replied.','L28'),
+I('o2','T','Behaviour','blocker','Auditors sent our first report back and we missed the deadline','The auditors sent our first report back, we missed the deadline.','L40'),
+I('o2','L','Behaviour','workaround',"I can't trace a number back to its source, so I redo it",'When someone asks where a number came from, I just redo the calculation.','L35'),
+I('o3','T','Behaviour','workaround','I copy numbers into the board pack by hand','Every quarter I copy the numbers into the board pack by hand.','L52'),
+I('o4','T','Behaviour','irritation','Our master spreadsheet crashes when we add a new site','The master spreadsheet crashes every time we add a new site.','L60'),
+I('o4','A','Opinion',null,'Excel gets messy with many projects','Once you have more than a few projects, the Excel gets really messy.','L29'),
+I('o4','K','Behaviour','irritation','Someone overwrote our formulas last month','Last month someone pasted over the formulas and nobody noticed for weeks.','L44'),
+I('o5','A','Behaviour','workaround','I merge reports from 14 projects by hand','Every quarter I merge the reports from fourteen projects by hand.','L12'),
+I('o5','K','Behaviour','workaround',"We copy each country's numbers into one master file","We copy each country's numbers into one master file.",'L19'),
+I('o5','M','Opinion',null,'Every project reports in its own way','Every project reports in its own way, there is no standard.','L22'),
+I('o6','K','Behaviour','workaround','I rebuild the same report for three funders','I rebuild basically the same report three times for three funders.','L31'),
+I('o6','M','Opinion',null,'Each funder wants different indicators','Each funder wants different indicators, and they change them.','L35'),
+I('o7a','L','Opinion',null,'The frameworks change every year','The frameworks change every year and I never feel up to date.','L41'),
+I('o7a','J','Opinion',null,"Companies can't keep up with regulation changes","Most mid-sized companies simply can't keep up with the changes.",'L18'),
+I('o7a','S','Opinion',null,'It is confusing',"Yes, it's confusing.",'L27',{weak:'Yes/no question'}),
+I('o7b','R','Behaviour','workaround','Each client asks for a different template, so I redo it','Each client asks for a different template, so I redo the whole thing.','L14'),
+I('o7b','A','Opinion',null,'Every client wants something slightly different','Every client wants something slightly different.','L38'),
+I('o8','D','Behaviour','workaround','Site staff type meter readings from paper forms','Our site staff type the meter readings from paper forms.','L9'),
+I('o8','L','Behaviour','workaround','We re-key utility bills into Excel every month','Every month we re-key the utility bills into Excel.','L52'),
+I('o9','A','Behaviour','workaround','We keep our own spreadsheet next to the central tool','Head office picked the tool, so we keep our own spreadsheet on the side.','L44'),
+I('o10a','S','Opinion',null,"Clients don't see why social value matters","Clients don't really see why social value matters.",'L33'),
+I('o10b','M','Opinion',null,"Our best stories don't fit into the numbers","Our best stories don't fit into the numbers.",'L40'),
+I('o10b','R','Behaviour','irritation',"I leave case studies out because there's no field for them","I leave the case studies out because there's nowhere to put them.",'L21'),
+I('o11','J','Opinion',null,"Most firms here don't care about ESG yet","Yes, most firms here don't care yet.",'L25',{weak:'Leading question'}),
+I('o11','S','Opinion',null,"ESG isn't on the agenda in my region","ESG just isn't on the agenda for most companies in my region.",'L12'),
+I('o12a','K','Behaviour','workaround','We send someone out for two days to collect field data','We send someone out for two days just to collect the field data.','L50'),
+I('o12b','K','Opinion',null,"There's no signal at half our sites","There's no signal at half our sites.",'L52'),
+I('o12b','D','Behaviour','irritation','Data gets uploaded weeks later','The data gets uploaded weeks later, when someone reaches town.','L30'),
+I(null,'A','Opinion',null,'We report against three different frameworks','We report against three different frameworks, and they all ask for something slightly different.','L22')];
+/* transcript for review */
+const TX={4:['P','I lead sustainability at a manufacturer, about four hundred people.'],38:['I','Can you walk me through how you get the data for your report?'],39:['P',"So it starts with suppliers, that's the painful bit."],40:['I','What happens there?'],
+41:['P',"Every quarter I email around forty suppliers a spreadsheet and chase them for weeks. Some of them are tiny family firms, they don't have a sustainability person, so it's usually the finance manager filling it in between other jobs."],
+42:['P','Half come back late, and some just guess the numbers.'],43:['I','And how do you check them?'],
+44:['P',"Well, we've had a couple of scares with the auditors, so now we pay a consultant to check our numbers before we submit anything, which costs us quite a bit, but at least I sleep at night."],
+45:['I',"Is there anything you'd want from a tool?"],46:['P',"I'd love a dashboard for the board."],47:['I','So that must be really frustrating, the supplier part, right?'],48:['P','Yeah, I suppose it is.'],
+49:['I','What about the rest of the data?'],50:['P','Scope 3 is the hardest part, by far.'],51:['I','And your own internal data?'],52:['P','Honestly, Excel works fine for us for that.'],
+53:['I','Anything else about suppliers?'],54:['P','Like I said, chasing the suppliers takes me weeks every quarter.'],55:['I','How do you report to leadership today?'],
+56:['P','At the moment I put together a slide deck by hand every quarter for the board, pulling numbers from about six different files, and it takes me most of a week.']};
+const REV=[
+{id:'r1',q:[[44,'now we pay a consultant to check our numbers before we submit anything']],type:'Behaviour',sev:'workaround',stmt:'I pay a consultant to check our numbers before we submit',node:'o2',
+ flags:[['Unsure group','Is this about proving the numbers are right, or about unreliable supplier numbers?','Pick the group that fits, or Unassigned to decide later.']],fu:'What worries you most when the numbers go to the auditors?'},
+{id:'r2',q:[[46,"I'd love a dashboard for the board."]],type:'Feature request',stmt:'I want a dashboard for the board',node:'o3',
+ flags:[['No "why"','She never says what the board would do with it.','Keep it, and add the follow-up so you ask next time.']],fu:'What would the board do differently if they had a dashboard?'},
+{id:'r3',q:[[48,'Yeah, I suppose it is.']],type:'Opinion',stmt:'Chasing suppliers is frustrating',node:'o1a',weak:'Leading question',
+ flags:[['Leading question','She answers "So that must be really frustrating... right?" (L47). Did she say it in her own words?','Keep as weak evidence or drop. A follow-up can get it in her own words.']],fu:'Walk me through the last time you chased a supplier. What happened?'},
+{id:'r4',q:[[52,'Excel works fine for us for that.']],type:'Opinion',stmt:'Excel works fine for my internal data',node:'o4',against:true,
+ flags:[['Contradicts existing','Goes against "My spreadsheets break as data grows". Real disagreement?','Keep (it counts against that opportunity), or drop.']],fu:'Where, if anywhere, does Excel stop working well for you?'},
+{id:'r5',q:[[41,'Every quarter I email around forty suppliers a spreadsheet and chase them for weeks.'],[54,'chasing the suppliers takes me weeks every quarter.']],type:'Behaviour',sev:'workaround',stmt:'I chase ~40 suppliers for weeks every quarter',node:'o1a',flags:[],info:'Said twice (L41, L54): merged into one insight. 2 mentions, still 1 person.'},
+{id:'r6',q:[[50,'Scope 3 is the hardest part, by far.']],type:'Opinion',stmt:'Scope 3 is the hardest part',node:'o1b',flags:[],info:'No impact shown: she does not say what Scope 3 costs her. Worth a follow-up?',fu:'What happens when you can\'t get the Scope 3 numbers?'},
+{id:'r7',q:[[56,'I put together a slide deck by hand every quarter for the board']],type:'Behaviour',sev:'workaround',stmt:'I build a board slide deck by hand every quarter',node:'o3',flags:[],info:'Same point as Tom (INT-002): not a duplicate, it adds a 2nd person to "Board reporting takes me days of manual work".'}];
+let FU=[
+{id:'f1',p:'T',q:'What did you change after the auditors sent the report back?',src:['Auditors sent our first report back and we missed the deadline','The auditors sent our first report back, we missed the deadline.','INT-002 L40'],status:'Open',all:false},
+{id:'f2',p:'L',q:'Which numbers do people most often ask you to trace?',src:["I can't trace a number back to its source, so I redo it",'When someone asks where a number came from, I just redo the calculation.','INT-010 L35'],status:'Asked',all:true},
+{id:'f3',p:'A',q:'Which of the three frameworks takes the most work, and why?',src:['We report against three different frameworks','We report against three different frameworks, and they all ask for something slightly different.','INT-003 L22'],status:'Answered',all:false,ans:'INT-003 follow-up call: "GRI, because the donors want it every quarter."'}];
+let LOG=[];
+/* ---------- STATE ---------- */
+let memQ={},doneTime='',openSnap={},view='review',cur=0,dec={},grp={},stmt={},edited={},fuOpen=null,creatingR=false,showFull=false,t0=Date.now(),done=false,reviewed=false;
+let open={o1:true,o1a:true},openEv={o1a:true},sortK=null,more={},renaming=null,merging=null,creating=null,focusing=null,FOCUS={root:{id:'o2',why:'Only blocker in the tree; fits the audit-readiness service',date:'8 Oct'}},nid=100,prof=null,fuAdd=null;
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const kids=k=>NODES.filter(x=>x.parent===k);const node=k=>NODES.find(x=>x.id===k);
+const path=k=>{const x=node(k);return x.parent?node(x.parent).t+' › '+x.t:x.t};
+const insOf=k=>INS.filter(i=>i.node===k||kids(k).some(c=>c.id===i.node));
+const tc=t=>t==='Feature request'?'t-Feature':'t-'+t;const dt=d=>d>=1000?d%100+' Oct':d%100+' Sep';
+const order=()=>REV.slice().sort((a,b)=>(b.flags.length>0)-(a.flags.length>0));
+const pname=p=>`<a onclick="openProf('${p}')">${PEOPLE[p].n}</a>`;
+/* ---------- NAV ---------- */
+function nav(){const openFU=FU.filter(f=>f.status!=='Answered').length;const left=REV.filter(r=>!dec[r.id]).length;
+ document.getElementById('nav').innerHTML=`<span class="brand">Discovery Insight Tool</span>
+ <button class="${view==='review'?'on':''}" onclick="go('review')">Review INT-005${left?`<span class="cnt">${left}</span>`:''}</button>
+ <button class="${view==='tree'?'on':''}" onclick="go('tree')">Opportunity tree</button>
+ <button class="${view==='cust'?'on':''}" onclick="go('cust')">Customers<span class="cnt" style="background:var(--fr-soft);color:var(--fr)">${openFU} open</span></button>`}
+window.go=v=>{view=v;render()};
+/* ---------- REVIEW ---------- */
+const nodeOpts=sel=>NODES.filter(x=>!kids(x.id).length).map(x=>`<option value="${x.id}" ${sel===x.id?'selected':''}>${esc(path(x.id))}</option>`).join('');
+function lineHtml(n,r){const [s,x]=TX[n];let h=esc(x);r.q.filter(q=>q[0]===n).forEach(q=>{h=h.replace(esc(q[1]),'<mark>'+esc(q[1])+'</mark>')});return `<div class="tl${s==='I'?' int':''}"><span class="n">L${n}</span><span class="s">${s==='I'?'Interviewer':'Priya'}</span><span class="x">${h}</span></div>`}
+function ctx(r){if(showFull)return Object.keys(TX).map(n=>lineHtml(+n,r)).join('');const set=new Set();r.q.forEach(([l])=>{if(TX[l-1])set.add(l-1);set.add(l)});let prev=null,out='';[...set].sort((a,b)=>a-b).forEach(n=>{if(prev&&n-prev>1)out+='<div class="tl"><span class="n">⋮</span></div>';out+=lineHtml(n,r);prev=n});return out}
+function review(){const list=order();const S=Math.floor((Date.now()-t0)/1000);
+ const head=`<div class="rhead"><h1>Review INT-005 · ${pname('P')}</h1><span class="tag t-Behaviour" style="background:var(--ok-soft);color:var(--ok)">✓ all quotes verified in code</span><div class="dots">${list.map((r,k)=>`<span class="${dec[r.id]==='keep'?'ap':dec[r.id]==='drop'?'rj':k===cur&&!done?'cur':''}" onclick="cur=${k};done=false;fuOpen=null;render()" title="${esc(r.stmt)}"></span>`).join('')}</div><span class="timer" id="timer">${String(Math.floor(S/60)).padStart(2,'0')}:${String(S%60).padStart(2,'0')}</span></div>`;
+ if(done)return head+doneScreen();
+ const r=list[cur];const g=grp[r.id]||r.node;const myFU=FU.filter(f=>f.rid===r.id);
+ return head+`<div class="card"><div class="meta"><span>Insight ${cur+1} of ${list.length} · ${r.flags.length?'<b style="color:var(--warn)">needs your judgement</b>':'no flags · quick check'}</span><span>${dec[r.id]?(dec[r.id]==='keep'?'<b style="color:var(--ok)">✓ Kept</b>':'<b style="color:var(--bad)">✕ Dropped</b>'):''}</span></div>
+ ${r.flags.map(f=>`<div class="check"><div class="cq">⚑ ${f[0]}: ${esc(f[1])}</div><div class="a">→ ${esc(f[2])}</div></div>`).join('')}${r.info?`<div class="infob">ⓘ ${esc(r.info)}</div>`:''}
+ <div class="lbl">Priya said</div><div class="said">${r.q.map(q=>`<q>${esc(q[1])}</q>`).join(' <span class="sub">…</span> ')}</div>
+ <div><span class="tag ${tc(r.type)}">${r.type}</span>${r.sev?`<span class="tag sev-${r.sev}">${r.sev}</span>`:''}<span class="sub">L${r.q.map(q=>q[0]).join(', L')}</span></div>
+ <div class="lbl">In context</div><div class="ctx">${ctx(r)}</div><button class="lk" style="margin-top:4px" onclick="showFull=!showFull;render()">${showFull?'Show less':'Show full transcript'}</button>
+ <div class="lbl">AI summary</div>${edited[r.id]==='editing'?`<div class="aibox"><input id="ed" value="${esc(stmt[r.id]||r.stmt)}"><button class="btn sm keep" onclick="saveEd('${r.id}')">Save</button></div>`:`<div class="aibox"><span style="flex:1">${esc(stmt[r.id]||r.stmt)}</span>${edited[r.id]?'<span class="tag" style="background:#f1f2f4;color:var(--muted)">✎ edited</span>':''}<button class="lk" onclick="edited['${r.id}']='editing';render()">✎ Edit</button></div>`}
+ <div class="lbl">Group</div><select style="width:100%" onchange="setG('${r.id}',this.value)">${nodeOpts(g)}<option value="__un" ${g==='__un'?'selected':''}>Unassigned (decide later)</option><option value="__new">+ New opportunity…</option></select>
+ ${creatingR?`<div class="newopp"><b>New opportunity</b><input id="nn" style="width:100%;margin:6px 0" placeholder="A problem the customer has, not a feature they want"><button class="btn sm pr" onclick="mkR('${r.id}')">Create</button> <button class="lk" onclick="creatingR=false;render()">Cancel</button></div>`:''}
+ ${myFU.map(f=>`<div class="fusaved">✓ Follow-up saved to Priya's profile: "${esc(f.q)}" <button class="lk" onclick="delFU('${f.id}')">Remove</button></div>`).join('')}
+ ${fuOpen===r.id?`<div class="fubox"><b>Follow-up for Priya</b> <span class="sub">saved to her profile for the next interview</span><textarea id="fuq">${esc(r.fu||'')}</textarea><div style="margin-top:8px"><button class="btn sm pr" onclick="saveFU('${r.id}')">Save follow-up</button> <button class="lk" onclick="fuOpen=null;render()">Cancel</button></div></div>`:''}
+ <div class="acts"><button class="btn keep" onclick="act('${r.id}','keep')">Keep<span class="kbd">K</span></button><button class="btn drop" onclick="act('${r.id}','drop')">Drop<span class="kbd d">D</span></button>
+ ${fuOpen!==r.id?`<button class="btn" style="border-color:#d9cdea;color:var(--fr)" onclick="fuOpen='${r.id}';render()">+ Add follow-up${r.fu?' (suggested)':''}</button>`:''}<span style="flex:1"></span>
+ <button class="lk" onclick="cur=Math.max(0,cur-1);fuOpen=null;showFull=false;render()">‹ Back</button><button class="lk" onclick="cur=Math.min(${list.length-1},cur+1);fuOpen=null;showFull=false;render()">Skip ›</button></div></div>`}
+function snapHtml(p,opts={}){const P=PEOPLE[p];const ins=INS.filter(i=>i.p===p);const int=P.ints[P.ints.length-1];
+ if(!ins.length)return '<div class="sub">No kept insights.</div>';
+ const mq=memQ[p]||(ins.find(i=>i.type==='Behaviour')||ins[0]).id;const m=ins.find(i=>i.id===mq)||ins[0];
+ const byNode={};ins.forEach(i=>{const k=i.node?path(i.node):'Unassigned';(byNode[k]=byNode[k]||[]).push(i)});
+ const fus=FU.filter(f=>f.p===p&&(p!=='P'||f.rid));
+ return `<div class="snap"><div class="snaphead"><b>${int[0]} · ${P.n}</b> <span class="sub">· ${int[1]} · ${P.role} · ${P.org}</span> <span class="ty ${P.type}">${P.type==='target'?'target customer':P.type}</span></div>
+ <div class="lbl">Memorable quote</div><div class="memq">“${esc(m.qs[0][1])}”</div>
+ ${opts.pick?`<div class="sub" style="margin-top:4px">AI suggestion. Change: <select style="padding:3px 6px;font-size:12px" onchange="memQ['${p}']=this.value;render()">${ins.map(i=>`<option value="${i.id}" ${i.id===m.id?'selected':''}>${esc(i.qs[0][1].slice(0,70))}${i.qs[0][1].length>70?'…':''}</option>`).join('')}</select></div>`:''}
+ <div class="lbl">What I learned · ${ins.length} insights</div>${Object.entries(byNode).map(([k,l])=>`<div class="snapop">${esc(k)}</div>${l.map(i=>`<div class="pins">${esc(i.sm)} <span class="tag ${tc(i.type)}">${i.type}</span>${i.sev?`<span class="tag sev-${i.sev}">${i.sev}</span>`:''}${i.against?'<span class="tag against">↓ against</span>':''}${i.weak?'<span class="tag weak">⚑ weak</span>':''}</div>`).join('')}`).join('')}
+ <div class="lbl">Opportunities touched</div><div class="sub">${Object.keys(byNode).length} · ${Object.keys(byNode).map(esc).join(' · ')}</div>
+ <div class="lbl">Follow-ups raised</div>${fus.length?`<ul style="margin-left:18px">${fus.map(f=>`<li>${esc(f.q)} <span class="st ${f.status}">${f.status}</span></li>`).join('')}</ul>`:'<div class="sub">None</div>'}</div>`}
+function doneScreen(){const k=REV.filter(r=>dec[r.id]==='keep'),un=k.filter(r=>(grp[r.id]||r.node)==='__un').length,dr=REV.filter(r=>dec[r.id]==='drop').length,fus=FU.filter(f=>f.rid);
+ return `<div class="done"><h2>✓ INT-005 reviewed · snapshot saved</h2><div class="sub">Time: <b>${doneTime||''}</b> · target ≤ 30 min · the snapshot below is saved to Priya's profile</div>
+ <div class="stats"><div><b>${k.length-un}</b>kept in the tree</div><div><b>${un}</b>Unassigned</div><div><b>${dr}</b>dropped</div><div><b style="color:var(--fr)">${fus.length}</b>follow-ups for Priya</div></div>
+ <div class="lbl" style="font-size:12px">Interview snapshot</div>${snapHtml('P',{pick:true})}
+ <div style="display:flex;gap:10px;margin-top:18px"><button class="btn pr" onclick="go('tree')">See what changed in the tree →</button><button class="btn" onclick="openProf('P')">Open Priya's profile</button></div></div>`}
+window.setG=(id,v)=>{if(v==='__new'){creatingR=true}else grp[id]=v;render()};
+window.mkR=id=>{const v=document.getElementById('nn').value.trim();if(!v)return;const nidx='o'+(++nid);NODES.push({id:nidx,t:v,parent:null,isNew:true});grp[id]=nidx;LOG.push(`Created opportunity "${v}" during review`);creatingR=false;render()};
+window.saveEd=id=>{const v=document.getElementById('ed').value.trim();if(v){stmt[id]=v;edited[id]=true}else edited[id]=false;render()};
+window.saveFU=rid=>{const q=document.getElementById('fuq').value.trim();if(!q)return;const r=REV.find(x=>x.id===rid);FU.push({id:'f'+Date.now(),p:'P',rid,q,src:[stmt[rid]||r.stmt,r.q[0][1],'INT-005 L'+r.q[0][0]],status:'Open',all:false});LOG.push(`Follow-up added for Priya: "${q}"`);fuOpen=null;render()};
+window.delFU=id=>{FU=FU.filter(f=>f.id!==id);render()};
+window.act=(id,d)=>{dec[id]=d;fuOpen=null;showFull=false;creatingR=false;const list=order();const nx=list.findIndex((r,k)=>k>cur&&!dec[r.id]);const any=list.findIndex(r=>!dec[r.id]);
+ if(nx>=0)cur=nx;else if(any>=0)cur=any;else{done=true;const t=document.getElementById('timer');doneTime=t?t.textContent:'';applyReview()}render()};
+function applyReview(){if(reviewed)return;reviewed=true;REV.forEach(r=>{if(dec[r.id]!=='keep')return;const g=grp[r.id]||r.node;INS.push({id:'k'+r.id,node:g==='__un'?null:g,p:'P',type:r.type,sev:r.sev||null,sm:stmt[r.id]||r.stmt,qs:r.q.map(q=>['L'+q[0],q[1]]),weak:r.weak,against:r.against,fresh:true})});
+ const k=REV.filter(r=>dec[r.id]==='keep').length;LOG.push(`7 Oct · INT-005 reviewed: ${k} kept, ${REV.length-k} dropped, ${FU.filter(f=>f.rid).length} follow-ups saved`);
+ open.o3=true;openEv.o3=true}
+/* ---------- TREE ---------- */
+const anyTarget=()=>INS.some(i=>i.node&&PEOPLE[i.p].type==='target');
+function sig(list){const sup=list.filter(i=>!i.against);const T=new Set(sup.filter(i=>PEOPLE[i.p].type==='target').map(i=>i.p)),O=new Set(sup.filter(i=>PEOPLE[i.p].type!=='target').map(i=>i.p));
+ const sev={blocker:0,workaround:0,irritation:0};sup.forEach(i=>{if(i.sev)sev[i.sev]++});
+ return{tgt:T.size,tn:[...T],oth:O.size,on:[...O],sev,beh:sup.filter(i=>i.type==='Behaviour').length,tot:sup.length,weak:sup.filter(i=>i.weak).length,ag:list.filter(i=>i.against).length,last:list.length?Math.max(...list.map(i=>DATE[i.p])):0,fresh:list.filter(i=>i.fresh).length,fr:sup.filter(i=>i.type==='Feature request').length}}
+function gaps(s){const g=[];if(!s.tot)return ['No evidence yet'];if(s.tgt===0)g.push('No target customers yet');else if(s.tgt===1)g.push('Only 1 target customer');if(s.beh*2<s.tot)g.push('Mostly opinions');
+ if(!s.sev.blocker&&!s.sev.workaround&&!s.sev.irritation)g.push('No impact shown');if(s.weak)g.push('Includes answers to leading questions');if(s.ag)g.push('Someone says it isn\'t a problem');return g}
+const sevChips=s=>Object.entries(s.sev).filter(([k,v])=>v).map(([k,v])=>`<span class="tag sev-${k}">${v} ${k}</span>`).join('')||'<span class="sub">—</span>';
+const TIPS={tgt:'Different people who fit your target customer profile. Counts people, not mentions.',oth:'Adjacent users and experts. Shown for context; they do not size the problem.',sev:'From the quotes. Blocker = it stops them. Workaround = costly manual effort. Irritation = annoying, no real cost.',beh:'Insights about what people did, out of all insights. Behaviour is stronger than opinion.',weak:'⚑ = answers to leading or yes/no questions. ↓ = people who said it is not a problem for them.',last:'Most recent interview that added evidence.'};
+const COLS=[['tgt','Target customers'],['oth','Other people'],['sev','Severity'],['beh','Behaviour'],['weak','Weak / against'],['last','Latest']];const LABEL=Object.fromEntries(COLS);
+const sevV=s=>s.sev.blocker*100+s.sev.workaround*10+s.sev.irritation;
+function val(s){const k=sortK||'tgt';return k==='last'?s.last:k==='sev'?sevV(s):k==='beh'?(s.tot?s.beh/s.tot:0):k==='weak'?-(s.weak+s.ag):k==='oth'?s.oth*1000+sevV(s):s.tgt*1000+s.oth*100+sevV(s)}
+const sorted=l=>l.map(x=>({x,s:sig(insOf(x.id))})).sort((a,b)=>val(b.s)-val(a.s));
+const names=ps=>ps.map(p=>pname(p)).join(', ');
+function moveSel(i){return `<select style="padding:5px 7px;font-size:12px" onchange="mv('${i.id}',this.value)"><option value="" selected>Move to…</option>${NODES.filter(x=>!kids(x.id).length).map(x=>`<option value="${x.id}" ${i.node===x.id?'disabled':''}>${esc(path(x.id))}${i.node===x.id?' (here now)':''}</option>`).join('')}<option value="__un">Unassigned</option><option value="__new">+ New opportunity…</option></select>`}
+function insHtml(i){const P=PEOPLE[i.p];const nfu=FU.filter(f=>f.p===i.p&&f.status!=='Answered').length;
+ return `<div class="ins ${i.against?'ag':''} ${i.fresh?'fresh':''}"><div><span class="sm">${esc(i.sm)}</span> <span class="tag ${tc(i.type)}">${i.type}</span>${i.sev?`<span class="tag sev-${i.sev}">${i.sev}</span>`:''}${i.weak?`<span class="tag weak">⚑ ${i.weak}</span>`:''}${i.against?'<span class="tag against">↓ against</span>':''}${i.fresh?'<span class="tag plus">new · INT-005</span>':''}
+ ${i.qs.slice(0,1).map(q=>`<q>${esc(q[1])}</q>`).join('')}<div class="who">${pname(i.p)} · ${P.type==='target'?'target customer':P.type} · ${i.fresh?'INT-005':pint(i.p)} ${i.qs[0][0]}${i.qs.length>1?` · +${i.qs.length-1} more quote`:''}${nfu?` · <span style="color:var(--fr)">${nfu} open follow-up${nfu>1?'s':''}</span>`:''} · <button class="lk" onclick="openTx('${i.p}',${parseInt(i.qs[0][0].slice(1))})">transcript ↗</button></div></div>
+ <div>${i.node?'':moveSel(i)}${creating===i.id?`<div class="inline"><input id="tn" placeholder="Problem in the customer's words"><button class="btn sm pr" onclick="mkT('${i.id}')">Create</button></div>`:''}</div></div>`}
+function cells(s){return `<td><span class="num">${s.tgt}</span> <span class="sub who">${names(s.tn)}</span></td><td>${s.oth?`<span class="num">${s.oth}</span> <span class="sub who">${names(s.on)}</span>`:'<span class="sub">—</span>'}</td><td>${sevChips(s)}</td><td>${s.tot?s.beh+'/'+s.tot:'—'}</td><td>${s.weak?`<span class="tag weak">⚑ ${s.weak}</span>`:''}${s.ag?`<span class="tag against">↓ ${s.ag}</span>`:''}${!s.weak&&!s.ag?'<span class="sub">—</span>':''}</td><td class="sub">${s.last?dt(s.last):'—'}</td>`}
+/* ---------- TREE v6: tiers, overview, compare, evidence page ---------- */
+const OBJ=['Grow the audit-readiness service','Win mid-size manufacturers','Reduce reporting effort for clients','No clear fit'];
+const DEC={o2:{tier:'Focus',by:'Mai, 8 Oct',obj:0,why:'The only blocker in the tree: an audit was rejected and a deadline missed. Customers redo calculations they cannot trace.',link:"I can't get supplier data on time"},
+o1:{tier:'Focus',by:'Mai, 8 Oct',obj:0,why:'Repeated behaviour, not opinion: people chase suppliers and rebuild figures from invoices. Late data may cause the accuracy problem.',link:"I can't prove our numbers are right"},
+o3:{tier:'Watch',by:'Mai, 8 Oct',obj:2,why:'Real effort every quarter, but no blocker yet.'},
+o4:{tier:'Watch',by:'Mai, 8 Oct',obj:2,why:'Mostly NGOs so far, and only 1 target customer.'},
+o7:{tier:'Watch',by:'Mai, 8 Oct',obj:1,why:'Mentioned often, but mostly opinion and mostly from experts.'}};
+const OD=k=>DEC[k]||(DEC[k]={tier:'Later',obj:3,why:''});
+let SUMMARY='Approve 2 more interviews on audit readiness. Both Focus problems are real for our target customers and ready to investigate, but we only have 3 target customers so far.',editSum=false;
+const SRC=['Support tickets','Product analytics','Sales or CS notes','Stakeholder input','Desk research','My own observation'];
+let OTHER=[{node:'o2',src:'Support tickets',text:'6 tickets in Q3 asked where a reported number came from',ref:'Support inbox, tag "audit questions"',by:'Mai',date:'9 Oct'},
+{node:'o2',src:'Sales or CS notes',text:'2 prospects asked about an audit trail during demos',ref:'CRM notes, Sep',by:'Mai',date:'9 Oct'},
+{node:'o1',src:'Product analytics',text:'Supplier requests take 19 days on average to get a reply',ref:'Internal request tracker',by:'Mai',date:'9 Oct'}];
+let otMode='ov',otPage=null,otOpenS={};
+const TT=Object.values(PEOPLE).filter(p=>p.type==='target').length;
+const otherOf=k=>OTHER.filter(o=>o.node===k||kids(k).some(c=>c.id===o.node));
+function ready(s){const g=[];if(s.tgt<2)g.push(s.tgt?'only 1 target customer':'no target customers');if(s.beh*2<s.tot)g.push('mostly opinions');if(!s.sev.blocker&&!s.sev.workaround)g.push('no real cost shown');if(s.ag)g.push("someone says it isn't a problem");return g}
+const readyHtml=(s,cls='')=>{const g=ready(s);return g.length?`<span class="ot-rd no ${cls}">Needs more evidence: ${g[0]}</span>`:`<span class="ot-rd ok ${cls}">Ready to investigate</span>`};
+function guide(k){const s=sig(insOf(k));const r=!ready(s).length;const fit=OD(k).obj<3;
+ if(r&&fit)return['Focus','ready to investigate and supports an objective'];if(s.tgt===0||!fit)return['Later',s.tgt===0?'no target customers yet':'no objective it supports'];return['Watch',r?'ready, but check the objective':'real signal, but '+ready(s)[0]]}
+function fuNode(f){if(f.rid){const r=REV.find(x=>x.id===f.rid);const g=grp[f.rid]||(r&&r.node);return g==='__un'?null:g}const i=INS.find(x=>x.sm===f.src[0]);return i?i.node:null}
+const openQ=k=>FU.filter(f=>f.status!=='Answered'&&(fuNode(f)===k||kids(k).some(c=>c.id===fuNode(f))));
+const topSev=s=>s.sev.blocker?'Blocker':s.sev.workaround?'Workaround':s.sev.irritation?'Irritation':null;
+function otChips(k,s,full){const d=OD(k);let h=`<span class="ot-chip p">${s.tgt} of ${TT} target customers</span>`+(s.oth&&!full?`<span class="ot-chip">${s.oth} other${s.oth===1?'':'s'}</span>`:'');
+ if(d.obj<3)h+=`<span class="ot-chip o">Supports: ${OBJ[d.obj].replace(/^Grow the /,'')}</span>`;const t=topSev(s);if(full&&t)h+=`<span class="ot-chip ${t==='Blocker'?'b':'s'}">${t}</span>`;if(!full&&s.ag)h+=`<span class="ot-chip b">${s.ag} against</span>`;return h}
+const tops=()=>NODES.filter(x=>!x.parent).map(x=>x.id);
+const otSort=(a,b)=>{const A=sig(insOf(a)),B=sig(insOf(b));return B.tgt-A.tgt||B.sev.blocker-A.sev.blocker||B.oth-A.oth};
+window.otGo=k=>{otPage=k;render();window.scrollTo(0,0)};window.otView=m=>{otMode=m;otPage=null;render();window.scrollTo(0,0)};
+window.otSet=(k,f,v)=>{const d=OD(k);d[f]=f==='obj'?+v:v;if(f==='tier'){d.by='Mai, today';LOG.push(`Tier of "${node(k).t}" set to ${v}`)}render()};
+window.otWhy=k=>{OD(k).why=document.getElementById('ow_'+k).value;LOG.push(`Reason updated for "${node(k).t}"`);render()};
+window.otSum=save=>{if(save){SUMMARY=document.getElementById('osum').value;LOG.push('Decision summary updated')}editSum=!save;render()};
+window.otAdd=k=>{const t=document.getElementById('ot_'+k).value.trim();if(!t)return;OTHER.push({node:k,src:document.getElementById('os_'+k).value,text:t,ref:document.getElementById('or_'+k).value.trim()||'no source given',by:'Mai',date:'today'});LOG.push(`Other evidence added to "${node(k).t}"`);render()};
+function otCard(k){const x=node(k);const s=sig(insOf(k));const d=OD(k);const fq=openQ(k).length;const no=otherOf(k).length;const t=d.tier;
+ if(t==='Later')return `<div class="ot-card L" onclick="otGo('${k}')"><span class="ot-tier tL">Later</span><span class="ot-lt">${esc(x.t)}</span><span class="sub">${s.tgt} target, ${s.oth} other</span><span class="ot-cr">▸</span></div>`;
+ if(t==='Watch')return `<div class="ot-card W" onclick="otGo('${k}')"><span class="ot-cr">See evidence ▸</span><span class="ot-tier tW">Watch</span><h3>${esc(x.t)}</h3><div class="ot-chips">${otChips(k,s,false)}${fq?`<span class="ot-chip">${fq} open question${fq===1?'':'s'}</span>`:''}${readyHtml(s,'chip')}</div>${d.why?`<p class="ot-why"><b>Why:</b> ${esc(d.why)}</p>`:''}</div>`;
+ return `<div class="ot-card F" onclick="otGo('${k}')"><span class="ot-cr">See evidence ▸</span><span class="ot-tier tF">Focus</span><h3>${esc(x.t)}</h3>
+ <p class="ot-why"><b>Why it matters:</b> ${esc(d.why)||'<i>Add a reason on the evidence page</i>'}</p>${d.link?`<p class="ot-lnk">Possibly linked to: <b>${esc(d.link)}</b></p>`:''}<div class="ot-chips">${otChips(k,s,true)}</div>
+ <div class="ot-unc">${readyHtml(s)}<span><b>${fq}</b> open question${fq===1?'':'s'}</span><span><b>${s.ag}</b> against</span>${no?`<span><b>${no}</b> other source${no===1?'':'s'}</span>`:''}<span class="ot-by">Set by ${d.by||'Mai'}</span></div></div>`}
+function otOverview(){const T=tops();const by=t=>T.filter(k=>OD(k).tier===t).sort(otSort);const F=by('Focus'),W=by('Watch'),L=by('Later');const un=INS.filter(i=>!i.node);const fresh=INS.filter(i=>i.fresh);
+ const fr=F.filter(k=>!ready(sig(insOf(k))).length).length;const nInt=Object.keys(PEOPLE).length;
+ return `<div class="ot-scale">${nInt} interviews: ${TT} target customers, ${nInt-TT} adjacent users or experts</div>
+ <div class="ot-bl"><div class="ot-bll">For your decision</div>${editSum?`<textarea id="osum" class="ot-ta">${esc(SUMMARY)}</textarea><button class="btn sm pr" style="margin-top:6px" onclick="otSum(true)">Save</button>`:`<p><b>${esc(SUMMARY)}</b></p><div class="ot-bls">${F.length} Focus problems, ${fr} ready to investigate. Written by Mai. <button class="lk ot-lkw" onclick="otSum(false)">Edit</button></div>`}</div>
+ ${reviewed?`<div class="chg"><b>Latest: INT-005 (Priya, 7 Oct)</b> added ${fresh.filter(i=>i.node).length} insights${fresh.some(i=>!i.node)?`, ${fresh.filter(i=>!i.node).length} to Unassigned`:''}, ${fresh.filter(i=>i.against).length} against an existing problem</div>`:`<div class="chg"><b>INT-005 is waiting for review.</b> Its insights appear here once you keep them. <button class="lk" onclick="go('review')">Review now</button></div>`}
+ <div class="ot-sec">Focus <span class="ot-n">${F.length}</span></div>${F.map(otCard).join('')}
+ <div class="ot-sec">Watch <span class="ot-n">${W.length}</span></div>${W.map(otCard).join('')}
+ <details class="ot-later"><summary class="ot-sec">Later <span class="ot-n">${L.length}</span> <span class="sub" style="font-weight:400">problems we are not looking at now</span></summary>${L.map(otCard).join('')}</details>
+ <details class="ot-pn"><summary><b>Unassigned (${un.length})</b> <span class="sub">kept, but in no problem yet; counts in no signal</span></summary>${un.map(insHtml).join('')||'<div class="sub">Empty</div>'}</details>
+ <details class="ot-pn"><summary><b>Change log</b> <span class="sub">every decision is logged</span></summary><ul class="ot-log">${LOG.slice().reverse().map(l=>`<li>${esc(l)}</li>`).join('')||'<li class="sub">No changes yet</li>'}</ul></details>
+ <div class="ot-rule">Order: tier first, then number of target customers, then blockers. Counts are people, not mentions. "Against" means a customer said the opposite.</div>`}
+function otCompare(){const T=tops().sort((a,b)=>'FWL'.indexOf(OD(a).tier[0])-'FWL'.indexOf(OD(b).tier[0])||otSort(a,b));
+ return `<div class="ot-gbox"><b>Tier guide</b> (a suggestion; you decide)<br><span class="ot-tier tF">Focus</span> ready to investigate and supports an objective. <span class="ot-tier tW">Watch</span> a real signal with a gap, or no clear objective yet. <span class="ot-tier tL">Later</span> no target customers, or no objective it supports.</div>
+ <table class="ot-cmp"><tr><th>Problem</th><th>Target customers</th><th>Severity</th><th>Behaviour</th><th>Against</th><th>Other evidence</th><th>Readiness</th><th>Objective</th><th>Guide</th><th>Your tier</th></tr>
+ ${T.map(k=>{const s=sig(insOf(k));const d=OD(k);const g=guide(k);const r=ready(s);const o=otherOf(k);return `<tr><td><a onclick="otGo('${k}')">${esc(node(k).t)}</a></td><td><b>${s.tgt}</b> of ${TT}</td><td>${topSev(s)||'none'}</td><td>${s.beh} of ${s.tot}</td><td>${s.ag?`<span class="tag against">${s.ag}</span>`:'0'}</td>
+ <td>${o.length?`<b>${o.length}</b><div class="sub">${[...new Set(o.map(x=>x.src.replace(' or CS','')))].join('; ')}</div>`:'0'}</td><td>${r.length?`<span class="ot-rd no">${r[0]}</span>`:'<span class="ot-rd ok">Ready</span>'}</td><td class="sub">${d.obj<3?OBJ[d.obj].replace(/^Grow the /,''):'No clear fit'}</td><td class="sub">${g[0]}</td>
+ <td><select class="${g[0]!==d.tier?'diff':''}" onchange="otSet('${k}','tier',this.value)">${['Focus','Watch','Later'].map(t=>`<option ${t===d.tier?'selected':''}>${t}</option>`).join('')}</select></td></tr>`}).join('')}</table>
+ <div class="ot-rule">Highlighted tier: your choice differs from the guide. That's fine; make sure "why it matters" explains it.</div>`}
+function otDetail(k){const x=node(k);const d=OD(k);const s=sig(insOf(k));const ks=kids(k);const g=gaps(s);const fq=openQ(k);const t=d.tier;const gd=guide(k);
+ const subs=ks.length?ks.map(c=>{const cs=sig(insOf(c.id));const o=otOpenS[c.id];return `<div class="ot-sp"><div class="ot-sph" onclick="otOpenS['${c.id}']=!otOpenS['${c.id}'];render()"><span>${o?'▾':'▸'}</span>${esc(c.t)}<span class="sub">${cs.tgt} target, ${cs.oth} other, ${cs.tot} insights${cs.ag?`, ${cs.ag} against`:''}</span></div>${o?insOf(c.id).map(insHtml).join(''):''}</div>`}).join(''):insOf(k).map(insHtml).join('')||'<div class="sub">No insights yet</div>';
+ return `<button class="lk ot-back" onclick="otGo(null)">‹ Back to ${otMode==='cmp'?'compare':'the tree'}</button>
+ <div class="ot-dh ${t[0]}"><span class="ot-tier t${t[0]}">${t}</span><h2>${esc(x.t)}</h2>${d.why?`<p class="ot-why"><b>Why it matters:</b> ${esc(d.why)}</p>`:''}<div class="ot-chips" style="margin:0">${otChips(k,s,true)}${s.oth?`<span class="ot-chip">${s.oth} other${s.oth===1?'':'s'}</span>`:''}${d.link?`<span class="ot-chip dash">Possibly linked to: ${esc(d.link)}</span>`:''}${s.fresh?`<span class="ot-chip n">+${s.fresh} from INT-005</span>`:''}</div></div>
+ <div class="ot-ev"><div class="ot-lab">Your decision</div>
+ <div class="ot-dec"><label>Tier</label><div><div class="ot-gd">Guide suggests <b>${gd[0]}</b>: ${gd[1]}. You decide.</div><select onchange="otSet('${k}','tier',this.value)">${['Focus','Watch','Later'].map(v=>`<option ${v===t?'selected':''}>${v}</option>`).join('')}</select></div>
+ <label>Supports objective</label><select onchange="otSet('${k}','obj',this.value)">${OBJ.map((o,i)=>`<option value="${i}" ${i===d.obj?'selected':''}>${o}</option>`).join('')}</select>
+ <label>Why it matters</label><div><textarea id="ow_${k}" class="ot-ta" placeholder="One or two lines your manager will read: why this problem, why now">${esc(d.why)}</textarea><button class="btn sm pr" style="margin-top:6px" onclick="otWhy('${k}')">Save</button></div></div>
+ <div class="ot-lab">Evidence signals (filled in by the tool, people not mentions)</div><div style="margin-bottom:8px">${readyHtml(s)} <span class="sub">Rule: 2+ target customers, mostly behaviour, a real cost shown, nobody against.</span></div>
+ <div class="ot-sig"><div><b>${s.tgt} of ${TT}</b>Target customers<br>${s.tn.map(p=>pname(p)).join(', ')||'none'}</div><div><b>${s.oth}</b>Other people<br>${s.on.map(p=>pname(p)).join(', ')||'none'}</div><div><b>${s.sev.blocker} blocker</b>${s.sev.workaround} workaround, ${s.sev.irritation} irritation</div><div><b>${s.beh} of ${s.tot}</b>Behaviour, not opinion</div><div><b>${s.weak} / ${s.ag}</b>Leading answers / against</div><div><b>${s.last?dt(s.last):'none'}</b>Latest evidence</div></div>
+ ${g.length?`<div class="ot-gap">Gaps: ${g.join('; ')}</div>`:'<div class="ot-gap ok">No obvious gaps</div>'}
+ <div class="ot-lab">${ks.length?`Sub-problems (${ks.length}) and their insights`:`Insights (${insOf(k).length})`}</div>${subs}
+ <div class="ot-lab">Other evidence (${otherOf(k).length}) <span class="sub" style="font-weight:400">from sources beyond interviews; shown alongside, not counted in the interview signals</span></div>
+ ${otherOf(k).map(o=>`<div class="ot-oe"><span class="ot-src">${o.src}</span><div><div>${esc(o.text)}</div><div class="who">${esc(o.ref)}; added by ${o.by}, ${o.date}</div></div></div>`).join('')||'<div class="sub" style="margin-bottom:6px">None yet</div>'}
+ <div class="ot-add"><select id="os_${k}">${SRC.map(v=>`<option>${v}</option>`).join('')}</select><input id="ot_${k}" placeholder="What it shows, e.g. 6 tickets asked where a number came from"><input id="or_${k}" placeholder="Source or link"><button class="btn sm pr" onclick="otAdd('${k}')">Add</button></div>
+ <div class="ot-lab">Open questions for next interviews (${fq.length})</div>${fq.map(f=>`<div class="ot-fu"><span class="ot-st ${f.status}">${f.status}</span>${esc(f.q)} <span class="sub">(${pname(f.p)})</span></div>`).join('')||'<div class="sub">None</div>'}
+ </div>`}
+function tree(){return `<div class="frame ot"><div class="top ot-top"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><h1>Opportunity tree</h1>${otPage?'':`<div class="ot-tog"><button class="${otMode==='ov'?'on':''}" onclick="otView('ov')">Overview</button><button class="${otMode==='cmp'?'on':''}" onclick="otView('cmp')">Compare and prioritise</button></div>`}</div>
+ <div class="sub">${otPage?'Evidence for one problem. Tiers are set by the PM, never by the AI.':otMode==='cmp'?'For the PM preparing the case: compare every problem side by side and set tiers.':'What matters most, and why. Click a problem to open its evidence. Tiers are set by the PM, never by the AI.'}</div></div>
+ <div class="ot-body">${otPage?otDetail(otPage):otMode==='cmp'?otCompare():otOverview()}<div class="ot-demo">Fictional data. Objectives are examples, set once per product.</div></div></div>`}
+
+window.mv=(iid,to)=>{const i=INS.find(x=>x.id===iid);if(!to)return;if(to==='__new'){creating=iid;render();return}const from=i.node?path(i.node):'Unassigned';i.node=to==='__un'?null:to;LOG.push(`Moved "${i.sm}" from ${from} to ${i.node?path(i.node):'Unassigned'}`);if(i.node){const x=node(i.node);if(x.parent)open[x.parent]=true;openEv[x.id]=true}render()};
+window.mkT=iid=>{const v=document.getElementById('tn').value.trim();if(!v)return;const i=INS.find(x=>x.id===iid);const id='o'+(++nid);NODES.push({id,t:v,parent:null,isNew:true});LOG.push(`Created opportunity "${v}" with "${i.sm}"`);i.node=id;openEv[id]=true;creating=null;render()};
+window.doRename=k=>{const v=document.getElementById('rn').value.trim();const x=node(k);if(v&&v!==x.t){LOG.push(`Renamed "${x.t}" to "${v}"`);x.t=v}renaming=null;render()};
+window.doMerge=k=>{const to=document.getElementById('mt').value;if(!to)return;const a=node(k),b=node(to);INS.forEach(i=>{if(i.node===k)i.node=to});kids(k).forEach(c=>c.parent=to);NODES=NODES.filter(x=>x.id!==k);LOG.push(`Merged "${a.t}" into "${b.t}"`);merging=null;render()};
+window.setFocus=k=>{const el=document.getElementById('fr');const v=el.value.trim();if(!v){el.placeholder='Please write a reason first';return}const sc=node(k).parent||'root';FOCUS[sc]={id:k,why:v,date:'8 Oct'};LOG.push(`Set focus to "${node(k).t}". Why: ${v}`);focusing=null;render()};
+/* ---------- CUSTOMERS ---------- */
+function cust(){const order=Object.keys(PEOPLE).sort((a,b)=>({target:0,adjacent:1,expert:2}[PEOPLE[a].type]-{target:0,adjacent:1,expert:2}[PEOPLE[b].type]));
+ return `<h1 style="font-size:18px;margin-bottom:4px">Customers</h1><div class="sub" style="margin-bottom:12px">Everyone you interviewed. Open a profile to prepare the next conversation.</div>
+ <div class="clist"><div class="crow h"><span>Name · role</span><span>Organisation</span><span>Type</span><span>Interviews</span><span>Follow-ups</span></div>
+ ${order.map(p=>{const P=PEOPLE[p];const o=FU.filter(f=>f.p===p&&f.status!=='Answered').length;return `<div class="crow" onclick="openProf('${p}')"><span><b>${P.n}</b> <span class="sub">· ${P.role}</span></span><span class="sub">${P.org}</span><span><span class="ty ${P.type}">${P.type==='target'?'target customer':P.type}</span></span><span class="sub">${P.ints.map(i=>i[0]).join(', ')}</span><span>${o?`<b style="color:var(--fr)">${o} open</b>`:'<span class="sub">—</span>'}</span></div>`}).join('')}</div>`}
+/* ---------- PROFILE PANEL ---------- */
+window.openProf=p=>{prof=p;renderPanel()};window.closeProf=()=>{prof=null;fuAdd=null;renderPanel()};
+function renderPanel(){const el=document.getElementById('panel');if(!prof){el.innerHTML='';return}const p=prof,P=PEOPLE[p];
+ const fus=FU.filter(f=>f.p===p);
+ el.innerHTML=`<div class="ov" onclick="closeProf()"></div><div class="panel"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><h2>${P.n}</h2><div class="sub">${P.role} · ${P.org}</div></div><button class="lk" onclick="closeProf()" style="font-size:16px">✕</button></div>
+ <div style="margin-top:8px"><span class="ty ${P.type}">${P.type==='target'?'target customer':P.type}</span> <span class="sub">${esc(P.why)}</span></div>
+ <div class="psec"><h3><span>Prep for the next interview</span><button class="lk" onclick="copyPrep('${p}')">Copy questions</button></h3>
+ ${fus.filter(f=>f.status!=='Answered').map(fuHtml).join('')||'<div class="sub">No open follow-ups.</div>'}
+ ${fuAdd?`<div class="fubox"><textarea id="pfq" placeholder="Question for ${P.n}"></textarea><div style="margin-top:6px"><button class="btn sm pr" onclick="addPF('${p}')">Save</button> <button class="lk" onclick="fuAdd=null;renderPanel()">Cancel</button></div></div>`:`<button class="lk" onclick="fuAdd=true;renderPanel()">+ Add a follow-up</button>`}</div>
+ ${fus.some(f=>f.status==='Answered')?`<div class="psec"><h3>Answered</h3>${fus.filter(f=>f.status==='Answered').map(fuHtml).join('')}</div>`:''}
+ <div class="psec"><h3>Interview snapshots · ${P.ints.length}</h3>${P.ints.slice().reverse().map(i=>{const k=p+i[0];const pend=p==='P'&&!reviewed;return `<div class="snapitem"><div class="snaprow" onclick="${pend?'':`openSnap['${k}']=!openSnap['${k}'];renderPanel()`}"><b>${i[0]}</b> <span class="sub">· ${i[1]}</span><span style="flex:1"></span>${pend?'<span class="st Asked">waiting for review</span>':`<button class="lk">${openSnap[k]?'Hide':'Open'} snapshot</button>`}<button class="lk" onclick="event.stopPropagation();openTx('${p}',null)">transcript ↗</button></div>${openSnap[k]&&!pend?snapHtml(p):''}</div>`}).join('')}</div>
+ <div class="psec sub">When ${P.n}'s next transcript is processed, the AI checks each open follow-up and links the answering quote (Open → Answered). You confirm it in the review.</div></div>`;
+ const t=document.getElementById('pfq');if(t)t.focus()}
+function fuHtml(f){return `<div class="fu ${f.status}"><div style="display:flex;justify-content:space-between;gap:8px"><span class="fq">${esc(f.q)}</span><span class="st ${f.status}">${f.status}</span></div>
+ <div class="src">From: ${esc(f.src[0])} · <q>${esc(f.src[1])}</q> · ${f.src[2]}</div>${f.ans?`<div class="src" style="color:var(--ok)">Answer: ${esc(f.ans)}</div>`:''}
+ <div style="margin-top:5px;display:flex;gap:10px;align-items:center"><select style="padding:3px 6px;font-size:12px" onchange="setSt('${f.id}',this.value)">${['Open','Asked','Answered'].map(s=>`<option ${s===f.status?'selected':''}>${s}</option>`).join('')}</select>
+ <button class="lk" style="color:var(--bad)" onclick="delPF('${f.id}')">Remove</button></div></div>`}
+window.setSt=(id,s)=>{const f=FU.find(x=>x.id===id);f.status=s;LOG.push(`Follow-up "${f.q}" → ${s}`);render();renderPanel()};
+window.setAll=(id,v)=>{FU.find(x=>x.id===id).all=v;render();renderPanel()};
+window.delPF=id=>{FU=FU.filter(x=>x.id!==id);render();renderPanel()};
+window.addPF=p=>{const q=document.getElementById('pfq').value.trim();if(!q)return;FU.push({id:'f'+Date.now(),p,q,src:['Added manually','',''],status:'Open',all:false});fuAdd=null;render();renderPanel()};
+window.copyPrep=p=>{const t=FU.filter(f=>f.p===p&&f.status!=='Answered').map(f=>'- '+f.q).join('\n');try{navigator.clipboard.writeText(t)}catch(e){}};
+/* ---------- TRANSCRIPT VIEWER ---------- */
+let tx=null;
+const PROMPTS=['Can you tell me more about that?','How do you handle that today?','What happens then?','Can you walk me through the last time?','Why is that?'];
+function txLines(p){if(p==='P')return Object.keys(TX).map(n=>[+n,TX[n][0]==='I'?'I':'P',TX[n][1]]);
+ const out=[];const ins=INS.filter(i=>i.p===p);ins.forEach((i,k)=>i.qs.forEach(q=>{const n=parseInt(q[0].slice(1));out.push([n-1,'I',PROMPTS[k%PROMPTS.length]]);out.push([n,'P',q[1]])}));
+ const seen=new Set();return out.filter(l=>{if(seen.has(l[0]))return false;seen.add(l[0]);return true}).sort((a,b)=>a[0]-b[0])}
+window.openTx=(p,line)=>{tx={p,line};renderTx();setTimeout(()=>{const el=document.getElementById('txt'+line);if(el)el.scrollIntoView({block:'center'})},30)};
+window.closeTx=()=>{tx=null;renderTx()};
+function renderTx(){let el=document.getElementById('txm');if(!el){el=document.createElement('div');el.id='txm';document.body.appendChild(el)}
+ if(!tx){el.innerHTML='';return}const P=PEOPLE[tx.p];const int=P.ints[P.ints.length-1];
+ const quoted=new Map();INS.filter(i=>i.p===tx.p).forEach(i=>i.qs.forEach(q=>quoted.set(parseInt(q[0].slice(1)),q[1])));
+ if(tx.p==='P'&&!reviewed)REV.forEach(r=>r.q.forEach(q=>quoted.set(q[0],q[1])));
+ const lines=txLines(tx.p);let prev=null;
+ el.innerHTML=`<div class="ov" style="z-index:40" onclick="closeTx()"></div><div class="txbox"><div class="txhead"><div><b>${int[0]} · ${P.n}</b> <span class="sub">· ${int[1]} · ${P.role}</span><div class="sub">Interviewer lines in grey are never used as evidence. <mark>Highlighted</mark> = words used as a quote.${tx.p!=='P'?' <i>(Prototype: excerpt only)</i>':''}</div></div><button class="lk" style="font-size:16px" onclick="closeTx()">✕</button></div>
+ <div class="txbody">${lines.map(([n,s,x])=>{let h=esc(x);if(s==='P'&&quoted.has(n)){const q=esc(quoted.get(n));h=h.includes(q)?h.replace(q,'<mark>'+q+'</mark>'):'<mark>'+h+'</mark>'}const gap=prev!==null&&n-prev>1?'<div class="tl"><span class="n">⋮</span></div>':'';prev=n;
+ return gap+`<div class="tl${s==='I'?' int':''}${n===tx.line?' target':''}" id="txt${n}"><span class="n">L${n}</span><span class="s">${s==='I'?'Interviewer':P.n}</span><span class="x">${h}</span></div>`}).join('')}</div></div>`}
+/* ---------- RENDER ---------- */
+function render(){nav();document.getElementById('main').innerHTML=view==='review'?review():view==='tree'?tree():cust();const f=document.getElementById(fuOpen?'fuq':renaming?'rn':focusing?'fr':creatingR?'nn':creating?'tn':'');if(f)f.focus()}
+document.addEventListener('keydown',e=>{if(view!=='review'||done||['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;const r=order()[cur];if(e.key==='k')act(r.id,'keep');if(e.key==='d')act(r.id,'drop')});
+setInterval(()=>{const t=document.getElementById('timer');if(!t||done)return;const s=Math.floor((Date.now()-t0)/1000);t.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},1000);
+render();
+</script></body></html>

@@ -1,0 +1,23 @@
+{
+  "memorable_quote": {
+    "text": "The funder asked me to explain the methodology, and I couldn't.",
+    "lines": [
+      11,
+      11
+    ]
+  },
+  "story": [
+    "Foundation requested travel emissions in March (L6)",
+    "Rebuilt flights from invoices without distances — took a week (L7)",
+    "Used a free calculator but could not explain its method to the funder (L9-11)"
+  ],
+  "interesting": [
+    "Funders, not regulators, drive NGO reporting (L4)",
+    "Budget for tooling is ~zero (L12)"
+  ],
+  "interview_id": "INT-003",
+  "org_id": "ORG-003",
+  "participant_id": "P-003",
+  "date": "2025-03-26",
+  "interviewer": "Mai (demo)"
+}

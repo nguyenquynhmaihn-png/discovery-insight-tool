@@ -1,0 +1,16 @@
+{
+  "id": "P-002",
+  "org_id": "ORG-002",
+  "role": "Finance Controller (owns ESG)",
+  "participant_type": "target_customer",
+  "current_tools": [
+    "Excel",
+    "Fuel card data",
+    "HR system export"
+  ],
+  "contact_ref": "private/contacts.csv#P-002",
+  "notes": [
+    "~350 staff (L4)",
+    "ESG reporting assigned last year (L4)"
+  ]
+}

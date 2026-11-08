@@ -1,0 +1,21 @@
+{
+  "memorable_quote": {
+    "text": "They start collecting data before they know what they need, and then they collect the wrong things.",
+    "lines": [
+      5,
+      5
+    ]
+  },
+  "story": [
+    "Advisor view across mid-sized clients (L3-4)",
+    "Food producer spent six months on non-material water data (L7)"
+  ],
+  "interesting": [
+    "Hypothesis: SMEs would pay for 'what to report and why' (L10) — validate with customers"
+  ],
+  "interview_id": "INT-004",
+  "org_id": "ORG-004",
+  "participant_id": "P-004",
+  "date": "2025-04-02",
+  "interviewer": "Mai (demo)"
+}

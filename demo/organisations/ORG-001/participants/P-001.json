@@ -1,0 +1,14 @@
+{
+  "id": "P-001",
+  "org_id": "ORG-001",
+  "role": "Sustainability Manager",
+  "participant_type": "target_customer",
+  "current_tools": [
+    "Excel"
+  ],
+  "contact_ref": "private/contacts.csv#P-001",
+  "notes": [
+    "Team of one for ESG, finance helps near deadline (L5)",
+    "~600 staff, 3 plants in Germany + 1 in Poland (L4)"
+  ]
+}

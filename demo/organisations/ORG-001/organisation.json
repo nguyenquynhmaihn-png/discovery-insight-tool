@@ -1,0 +1,10 @@
+{
+  "id": "ORG-001",
+  "pseudonym": "Manufacturer A",
+  "org_type": "company",
+  "sector": "Packaging manufacturing",
+  "country": "Germany",
+  "size_band": "mid-size",
+  "fits_icp": true,
+  "source": "INT-001 L4"
+}

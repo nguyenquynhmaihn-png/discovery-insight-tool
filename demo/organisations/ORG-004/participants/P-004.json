@@ -1,0 +1,11 @@
+{
+  "id": "P-004",
+  "org_id": "ORG-004",
+  "role": "Independent ESG Advisor",
+  "participant_type": "expert",
+  "current_tools": [],
+  "contact_ref": "private/contacts.csv#P-004",
+  "notes": [
+    "Advises mid-sized companies (L3-4)"
+  ]
+}

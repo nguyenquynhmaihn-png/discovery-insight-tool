@@ -1,0 +1,123 @@
+[
+  {
+    "id": "INS-004-01",
+    "interview_id": "INT-004",
+    "org_id": "ORG-004",
+    "participant_id": "P-004",
+    "type": "opinion",
+    "research_questions": [
+      "RQ1"
+    ],
+    "statement": "Companies don't know which framework applies to them",
+    "quote": "Most mid-sized companies I work with don't know which framework applies to them, CSRD, GRI or voluntary standards.",
+    "lines": [
+      4,
+      4
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-02.1",
+      "confidence": "high",
+      "reason": "",
+      "approved": false
+    }
+  },
+  {
+    "id": "INS-004-02",
+    "interview_id": "INT-004",
+    "org_id": "ORG-004",
+    "participant_id": "P-004",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ1"
+    ],
+    "statement": "Companies collect data before knowing what is material",
+    "quote": "spent six months gathering water data that wasn't material for them at all.",
+    "lines": [
+      5,
+      7
+    ],
+    "masked": false,
+    "severity": "workaround",
+    "severity_quote": "A food producer I advised last year spent six months gathering water data that wasn't material for them at all.",
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": "Second-hand account from an advisor, not the company itself.",
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-02.1",
+      "confidence": "high",
+      "reason": "",
+      "approved": false
+    }
+  },
+  {
+    "id": "INS-004-03",
+    "interview_id": "INT-004",
+    "org_id": "ORG-004",
+    "participant_id": "P-004",
+    "type": "opinion",
+    "research_questions": [
+      "RQ2",
+      "RQ3"
+    ],
+    "statement": "Available software is priced for enterprises",
+    "quote": "The software on the market is priced for enterprises.",
+    "lines": [
+      9,
+      9
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "parking_lot",
+      "opportunity_id": "PARK-02",
+      "confidence": "high",
+      "reason": "Market signal about existing tools, not a customer need.",
+      "approved": false
+    }
+  },
+  {
+    "id": "INS-004-04",
+    "interview_id": "INT-004",
+    "org_id": "ORG-004",
+    "participant_id": "P-004",
+    "type": "opinion",
+    "research_questions": [
+      "RQ3"
+    ],
+    "statement": "SMEs would pay for simple guidance on what to report and why",
+    "quote": "I think SMEs would pay for something simple if it told them what to report and why.",
+    "lines": [
+      10,
+      10
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": true,
+    "followup_question": "(Ask a target customer) What have you paid for help deciding what to report? How did that go?",
+    "interpretation_note": "Expert hypothesis — needs validation with target customers.",
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-02.1",
+      "confidence": "medium",
+      "reason": "",
+      "approved": false
+    }
+  }
+]

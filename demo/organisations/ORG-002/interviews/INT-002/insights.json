@@ -1,0 +1,242 @@
+[
+  {
+    "id": "INS-002-01",
+    "interview_id": "INT-002",
+    "org_id": "ORG-002",
+    "participant_id": "P-002",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ1"
+    ],
+    "statement": "I don't know which emission factors apply to my fleet",
+    "quote": "I didn't know which emission factors to use for our truck fleet, so I spent a weekend reading guidance documents.",
+    "lines": [
+      7,
+      7
+    ],
+    "masked": false,
+    "severity": "workaround",
+    "severity_quote": "I didn't know which emission factors to use for our truck fleet, so I spent a weekend reading guidance documents.",
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-02.2",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-002-02",
+    "interview_id": "INT-002",
+    "org_id": "ORG-002",
+    "participant_id": "P-002",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ2"
+    ],
+    "statement": "I pay a consultant to check my numbers because I'm not sure they're right",
+    "quote": "In the end we paid a consultant to check my numbers, which cost more than I expected.",
+    "lines": [
+      8,
+      8
+    ],
+    "masked": false,
+    "severity": "workaround",
+    "severity_quote": "In the end we paid a consultant to check my numbers, which cost more than I expected.",
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-02.2",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-002-03",
+    "interview_id": "INT-002",
+    "org_id": "ORG-002",
+    "participant_id": "P-002",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ2"
+    ],
+    "statement": "Some data sits in other systems and has to be exported to Excel",
+    "quote": "HR data is in another system and I export it to Excel.",
+    "lines": [
+      10,
+      10
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-01.1",
+      "confidence": "medium",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-002-04",
+    "interview_id": "INT-002",
+    "org_id": "ORG-002",
+    "participant_id": "P-002",
+    "type": "opinion",
+    "research_questions": [
+      "RQ1"
+    ],
+    "statement": "I don't understand what is actually required of us",
+    "quote": "Understanding what is actually required.",
+    "lines": [
+      12,
+      12
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-02.1",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-002-05",
+    "interview_id": "INT-002",
+    "org_id": "ORG-002",
+    "participant_id": "P-002",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ1"
+    ],
+    "statement": "I answer the same question again for every customer questionnaire",
+    "quote": "I answered basically the same question four times last year for four different customers.",
+    "lines": [
+      12,
+      13
+    ],
+    "masked": false,
+    "severity": "workaround",
+    "severity_quote": "I answered basically the same question four times last year for four different customers.",
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-03",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-002-06",
+    "interview_id": "INT-002",
+    "org_id": "ORG-002",
+    "participant_id": "P-002",
+    "type": "feature_request",
+    "research_questions": [
+      "RQ3"
+    ],
+    "statement": "A dashboard showing all ESG numbers in one place",
+    "quote": "I'd like a dashboard where I can see all our ESG numbers in one place.",
+    "lines": [
+      15,
+      17
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": true,
+    "followup_question": "Tell me about the last time management asked about ESG. What did they want to know, and what did you show them?",
+    "interpretation_note": "Participant could not name a use for the dashboard (L17). Underlying need unclear.",
+    "mapping": {
+      "action": "parking_lot",
+      "opportunity_id": "PARK-01",
+      "confidence": "medium",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-002-07",
+    "interview_id": "INT-002",
+    "org_id": "ORG-002",
+    "participant_id": "P-002",
+    "type": "opinion",
+    "research_questions": [
+      "RQ4"
+    ],
+    "statement": "I want to stop redoing the same work every time a customer asks",
+    "quote": "Mostly I just want to stop redoing the same work every time a customer asks.",
+    "lines": [
+      18,
+      18
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-03",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-002-08",
+    "interview_id": "INT-002",
+    "org_id": "ORG-002",
+    "participant_id": "P-002",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ2"
+    ],
+    "statement": "ESG was handed to me because nobody else owned it",
+    "quote": "ESG reporting landed on my desk last year because nobody else wanted it.",
+    "lines": [
+      4,
+      4
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-05",
+      "confidence": "medium",
+      "reason": "",
+      "approved": true
+    }
+  }
+]

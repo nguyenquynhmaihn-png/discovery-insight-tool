@@ -1,0 +1,215 @@
+[
+  {
+    "id": "INS-001-01",
+    "interview_id": "INT-001",
+    "org_id": "ORG-001",
+    "participant_id": "P-001",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ1"
+    ],
+    "statement": "Chasing site data takes most of my reporting time",
+    "quote": "It took me almost three months, and most of that was chasing data.",
+    "lines": [
+      7,
+      7
+    ],
+    "masked": false,
+    "severity": "workaround",
+    "severity_quote": "Last spring. It took me almost three months, and most of that was chasing data.",
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-01.1",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-001-02",
+    "interview_id": "INT-001",
+    "org_id": "ORG-001",
+    "participant_id": "P-001",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ1",
+      "RQ2"
+    ],
+    "statement": "Every site sends data in a different spreadsheet format, so I rebuild it by hand",
+    "quote": "Energy data comes from each plant manager in a different spreadsheet format, so I rebuild everything by hand.",
+    "lines": [
+      8,
+      8
+    ],
+    "masked": false,
+    "severity": "workaround",
+    "severity_quote": "Energy data comes from each plant manager in a different spreadsheet format, so I rebuild everything by hand.",
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-01.1",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-001-03",
+    "interview_id": "INT-001",
+    "org_id": "ORG-001",
+    "participant_id": "P-001",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ1"
+    ],
+    "statement": "Late data forces me to sign off numbers I can't trace back",
+    "quote": "Honestly, I was not comfortable signing off numbers I couldn't trace back.",
+    "lines": [
+      10,
+      11
+    ],
+    "masked": false,
+    "severity": "workaround",
+    "severity_quote": "The Polish plant sent their electricity figures two days before the deadline, and I had to estimate the gap for one quarter.",
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-01.2",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-001-04",
+    "interview_id": "INT-001",
+    "org_id": "ORG-001",
+    "participant_id": "P-001",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ2"
+    ],
+    "statement": "All our ESG knowledge sits in one person's 40-tab workbook",
+    "quote": "One master workbook with about forty tabs. If I'm off sick, nobody else can open it and understand it.",
+    "lines": [
+      13,
+      13
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-05",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-001-05",
+    "interview_id": "INT-001",
+    "org_id": "ORG-001",
+    "participant_id": "P-001",
+    "type": "opinion",
+    "research_questions": [
+      "RQ3"
+    ],
+    "statement": "Software I've seen is built for large corporates, not us",
+    "quote": "it was built for large corporates. Too expensive and too many modules we'd never use.",
+    "lines": [
+      15,
+      15
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "parking_lot",
+      "opportunity_id": "PARK-02",
+      "confidence": "high",
+      "reason": "Market signal about existing tools, not a customer need.",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-001-06",
+    "interview_id": "INT-001",
+    "org_id": "ORG-001",
+    "participant_id": "P-001",
+    "type": "feature_request",
+    "research_questions": [
+      "RQ3"
+    ],
+    "statement": "Site managers should enter data once, in one format",
+    "quote": "I want the plant managers to put their data in once, in the same format, without me chasing them by email.",
+    "lines": [
+      17,
+      19
+    ],
+    "masked": false,
+    "severity": "workaround",
+    "severity_quote": "Because the chasing is where I lose weeks. The analysis part I actually enjoy.",
+    "linked_insight_ids": [
+      "INS-001-01"
+    ],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": "Underlying need stated at L19: chasing is where time is lost.",
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-01.1",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-001-07",
+    "interview_id": "INT-001",
+    "org_id": "ORG-001",
+    "participant_id": "P-001",
+    "type": "opinion",
+    "research_questions": [
+      "RQ4"
+    ],
+    "statement": "Auditors will expect every number to be traceable under CSRD",
+    "quote": "And with CSRD coming, the auditors will ask where every number came from.",
+    "lines": [
+      20,
+      20
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-01.2",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  }
+]

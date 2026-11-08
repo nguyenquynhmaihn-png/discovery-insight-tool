@@ -1,0 +1,16 @@
+[
+  {
+    "id": "CE-004-01",
+    "interview_id": "INT-004",
+    "org_id": "ORG-004",
+    "participant_id": "P-004",
+    "opportunity_id": "OPP-01",
+    "quote": "for most of my clients that part is fine. Their finance system already holds the energy and travel spend, so they just export it.",
+    "lines": [
+      12,
+      12
+    ],
+    "reason": "Says collecting data from other teams is not a problem for most of their clients, because finance already holds it.",
+    "approved": false
+  }
+]

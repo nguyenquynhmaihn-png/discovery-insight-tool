@@ -1,0 +1,14 @@
+{
+  "id": "P-003",
+  "org_id": "ORG-003",
+  "role": "Programme Lead",
+  "participant_type": "adjacent_user",
+  "current_tools": [
+    "Excel",
+    "Free online carbon calculator"
+  ],
+  "contact_ref": "private/contacts.csv#P-003",
+  "notes": [
+    "No mandatory reporting; funders request data (L4)"
+  ]
+}

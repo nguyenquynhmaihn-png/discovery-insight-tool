@@ -1,0 +1,92 @@
+[
+  {
+    "id": "INS-003-01",
+    "interview_id": "INT-003",
+    "org_id": "ORG-003",
+    "participant_id": "P-003",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ1"
+    ],
+    "statement": "Source documents lack the detail I need, so calculating took a week",
+    "quote": "It took about a week because the invoices don't show distances, only destinations.",
+    "lines": [
+      7,
+      7
+    ],
+    "masked": false,
+    "severity": "workaround",
+    "severity_quote": "It took about a week because the invoices don't show distances, only destinations.",
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-01.1",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-003-02",
+    "interview_id": "INT-003",
+    "org_id": "ORG-003",
+    "participant_id": "P-003",
+    "type": "behaviour",
+    "research_questions": [
+      "RQ2"
+    ],
+    "statement": "My calculator gives a number I can't explain",
+    "quote": "The calculator gives a number but I can't show how it got there.",
+    "lines": [
+      9,
+      11
+    ],
+    "masked": false,
+    "severity": "blocker",
+    "severity_quote": "Because the funder asked me to explain the methodology, and I couldn't.",
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "attach",
+      "opportunity_id": "OPP-01.2",
+      "confidence": "high",
+      "reason": "",
+      "approved": true
+    }
+  },
+  {
+    "id": "INS-003-03",
+    "interview_id": "INT-003",
+    "org_id": "ORG-003",
+    "participant_id": "P-003",
+    "type": "opinion",
+    "research_questions": [
+      "RQ3"
+    ],
+    "statement": "Paid software isn't realistic on our budget",
+    "quote": "Paid software isn't realistic for us. Our budget for this is basically zero.",
+    "lines": [
+      12,
+      12
+    ],
+    "masked": false,
+    "severity": "unknown",
+    "severity_quote": null,
+    "linked_insight_ids": [],
+    "needs_followup": false,
+    "followup_question": null,
+    "interpretation_note": null,
+    "mapping": {
+      "action": "parking_lot",
+      "opportunity_id": "PARK-02",
+      "confidence": "high",
+      "reason": "Market signal about existing tools, not a customer need.",
+      "approved": true
+    }
+  }
+]

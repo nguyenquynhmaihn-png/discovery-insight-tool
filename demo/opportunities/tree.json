@@ -1,0 +1,126 @@
+{
+  "outcome": "see config/outcome.md",
+  "updated": "2025-04-02",
+  "opportunities": [
+    {
+      "id": "OPP-01",
+      "parent_id": null,
+      "title": "Getting the data I need from across the organisation takes too long",
+      "scope": "in_scope",
+      "status": "exploring",
+      "created": "2025-03-12",
+      "summary": "Across interviews, collecting data is where most reporting time goes. Data arrives late, in inconsistent formats, or without the detail needed to calculate, and people rebuild it by hand. When numbers can't be traced back, participants feel exposed to auditors and funders.",
+      "market_factor": null,
+      "company_factor": null,
+      "decision_rationale": null
+    },
+    {
+      "id": "OPP-01.1",
+      "parent_id": "OPP-01",
+      "title": "I have to chase people and rebuild data that arrives in different formats",
+      "scope": "in_scope",
+      "status": "exploring",
+      "created": "2025-03-12",
+      "summary": "Participants spend weeks chasing colleagues or sites and re-keying data from inconsistent spreadsheets or exports. One target customer says this chasing is where she loses weeks.",
+      "market_factor": null,
+      "company_factor": null,
+      "decision_rationale": "Demo: strongest behaviour evidence from both target customers; exploring first."
+    },
+    {
+      "id": "OPP-01.2",
+      "parent_id": "OPP-01",
+      "title": "I can't show where my numbers came from when someone asks",
+      "scope": "in_scope",
+      "status": "open",
+      "created": "2025-03-12",
+      "summary": "When data is estimated or produced by a black-box calculator, participants cannot explain it. One could not answer a funder's methodology question; another expects CSRD auditors to ask for the source of every number.",
+      "market_factor": null,
+      "company_factor": null,
+      "decision_rationale": null
+    },
+    {
+      "id": "OPP-02",
+      "parent_id": null,
+      "title": "I'm not sure what I need to report or how to calculate it",
+      "scope": "in_scope",
+      "status": "open",
+      "created": "2025-03-19",
+      "summary": "Participants are unsure which requirements apply and which methods to use, so they either over-collect data or pay consultants to check their work.",
+      "market_factor": null,
+      "company_factor": null,
+      "decision_rationale": null
+    },
+    {
+      "id": "OPP-02.1",
+      "parent_id": "OPP-02",
+      "title": "I don't know which requirements or framework apply to us",
+      "scope": "in_scope",
+      "status": "open",
+      "created": "2025-03-19",
+      "summary": "One target customer struggles to understand what is required. The advisor reports this is common and leads to collecting non-material data. Mostly expert evidence so far.",
+      "market_factor": null,
+      "company_factor": null,
+      "decision_rationale": null
+    },
+    {
+      "id": "OPP-02.2",
+      "parent_id": "OPP-02",
+      "title": "I don't know which calculation methods or emission factors to use",
+      "scope": "in_scope",
+      "status": "open",
+      "created": "2025-03-19",
+      "summary": "A target customer spent a weekend on emission-factor guidance and then paid a consultant to check the numbers.",
+      "market_factor": null,
+      "company_factor": null,
+      "decision_rationale": null
+    },
+    {
+      "id": "OPP-03",
+      "parent_id": null,
+      "title": "I redo the same reporting work for every request I receive",
+      "scope": "in_scope",
+      "status": "open",
+      "created": "2025-03-19",
+      "summary": "Customer questionnaires ask for the same information in different ways, so the same answers are rebuilt each time.",
+      "market_factor": null,
+      "company_factor": null,
+      "decision_rationale": null
+    },
+    {
+      "id": "PARK-02",
+      "parent_id": null,
+      "title": "Software I've seen is priced and built for much larger companies",
+      "scope": "parking_lot",
+      "status": "open",
+      "created": "2025-03-12",
+      "summary": "Participants judge current software as too expensive or too complex for their size. This is a signal about the competitive landscape rather than a customer need, so it is parked and should feed the 'market factor' when prioritising.",
+      "market_factor": "Demo: existing tools target enterprises, which leaves a gap for simpler mid-market products (from participant views only; not market research).",
+      "company_factor": null,
+      "decision_rationale": null
+    },
+    {
+      "id": "OPP-05",
+      "parent_id": null,
+      "title": "When the person who owns ESG reporting is away, nobody else can produce it",
+      "scope": "in_scope",
+      "status": "open",
+      "created": "2025-03-12",
+      "summary": "Reporting knowledge sits with one person, a 'team of one' or whoever was handed the task, and in their own workbook. One target customer says nobody else could open and understand it if she were off sick.",
+      "market_factor": null,
+      "company_factor": null,
+      "decision_rationale": null
+    },
+    {
+      "id": "PARK-01",
+      "parent_id": null,
+      "title": "I want to show management that we are on top of ESG",
+      "scope": "parking_lot",
+      "status": "open",
+      "created": "2025-03-19",
+      "summary": "Raised as a dashboard request without a clear underlying need. Parked until follow-up.",
+      "market_factor": null,
+      "company_factor": null,
+      "decision_rationale": null
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "memorable_quote": {
+    "text": "I answered basically the same question four times last year for four different customers.",
+    "lines": [
+      13,
+      13
+    ]
+  },
+  "story": [
+    "ESG assigned to finance because no one owned it (L4)",
+    "Customer questionnaire triggered first Scope 1 & 2 calculation (L6)",
+    "Spent a weekend on emission-factor guidance, then paid a consultant to check (L7-8)"
+  ],
+  "interesting": [
+    "Reporting is driven by customer questionnaires, not regulation (L6, L13)",
+    "Asked for a dashboard but could not say what for (L15-17)"
+  ],
+  "interview_id": "INT-002",
+  "org_id": "ORG-002",
+  "participant_id": "P-002",
+  "date": "2025-03-19",
+  "interviewer": "Mai (demo)"
+}

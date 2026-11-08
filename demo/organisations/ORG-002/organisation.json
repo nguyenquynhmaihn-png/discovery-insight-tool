@@ -1,0 +1,10 @@
+{
+  "id": "ORG-002",
+  "pseudonym": "Logistics Co. B",
+  "org_type": "company",
+  "sector": "Logistics",
+  "country": "Netherlands",
+  "size_band": "mid-size",
+  "fits_icp": true,
+  "source": "INT-002 L4"
+}

@@ -1,0 +1,24 @@
+{
+  "memorable_quote": {
+    "text": "The chasing is where I lose weeks. The analysis part I actually enjoy.",
+    "lines": [
+      19,
+      19
+    ]
+  },
+  "story": [
+    "Prepared last ESG report over ~3 months, mostly chasing site data (L7)",
+    "Each plant sends energy data in its own spreadsheet format; rebuilt by hand (L8)",
+    "Polish plant data arrived 2 days before deadline; one quarter estimated (L10)",
+    "Evaluated one platform; judged it too expensive and too complex (L15)"
+  ],
+  "interesting": [
+    "Enjoys the analysis part — the pain is collection, not reporting (L19)",
+    "Key-person risk: workbook only she understands (L13)"
+  ],
+  "interview_id": "INT-001",
+  "org_id": "ORG-001",
+  "participant_id": "P-001",
+  "date": "2025-03-12",
+  "interviewer": "Mai (demo)"
+}
